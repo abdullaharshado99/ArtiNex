@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTINEX</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          background: #0B0F2F;
+          color: #D6D9F5;
+          font-family: 'Inter', sans-serif;
+        }
+        .tech-card {
+          transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+          box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
+        }
+
+        .tech-card img {
+          filter: brightness(0.9);
+          transition: filter 0.3s ease;
+        }
+
+        .tech-card:hover img {
+          filter: brightness(1.1);
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4f46e5',
+            secondary: '#6366f1',
+            dark: '#1e1b4b',
+          },
+          fontFamily: {
+            'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+            'display': ['Poppins', 'ui-sans-serif']
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'fade-in': 'fadeIn 1s ease-in',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gradient-to-br from-black-50 to-black-100 min-h-screen flex flex-col justify-between font-sans">
+
+<!--    &lt;!&ndash; ✅ Announcement Modal &ndash;&gt;-->
+<!--  <div id="announcementModal" class="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">-->
+<!--    <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-xl relative text-gray-800 animate-fade-in">-->
+<!--      <button onclick="document.getElementById('announcementModal').style.display='none'" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</button>-->
+<!--      <div class="flex justify-center mb-6">-->
+<!--        <div class="flex items-center space-x-2">-->
+<!--          <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
+<!--            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>-->
+<!--          </svg>-->
+<!--          <h1 class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">AI Career Assistant</h1>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    <h2 class="text-3xl font-bold text-center text-indigo-800 mb-2 font-display">Welcome</h2>-->
+<!--      <h3 class="text-xl font-semibold mb-4 text-indigo-700">📢 Announcements</h3>-->
+<!--      <ul class="space-y-4 max-h-60 overflow-y-auto pr-2">-->
+<!--        {% for ann in announcements %}-->
+<!--          <li class="border-l-4 border-indigo-500 pl-4">-->
+<!--            <p>{{ ann.message }}</p>-->
+<!--            <small class="text-sm text-gray-500">{{ ann.created_at.strftime('%b %d, %Y') }}</small>-->
+<!--          </li>-->
+<!--        {% endfor %}-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+      <!-- Navbar -->
+      <header class="bg-black/90 shadow-lg backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <img alt="icon" src="static/images/anim fav.gif" width="25px" height="25px">
+            <h1 class="text-indigo-500 font-big text-2xl">ARTINEX</h1>
+          </div>
+
+          <!-- Desktop Nav -->
+          <nav class="hidden md:flex space-x-8 items-center justify-center">
+            <a href="/" class="text-white font-big text-2xl hover:text-indigo-900 transition-colors duration-300 relative group">
+              Home
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#about" class="text-white font-big text-2xl hover:text-indigo-900 transition-colors duration-300 relative group">
+              About
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#services" class="text-white font-big text-2xl hover:text-indigo-900 transition-colors duration-300 relative group">
+              Services
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#technologies" class="text-white font-big text-2xl hover:text-indigo-900 transition-colors duration-300 relative group">
+              Technologies
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#contact" class="btn-animated inline-flex px-10 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 text-lg tracking-wide">
+              Contact
+            </a>
+          </nav>
+
+          <!-- Mobile Menu -->
+          <div class="md:hidden relative">
+            <button onclick="toggleMenu()" class="text-indigo-700 text-3xl focus:outline-none transition-transform duration-300 hover:rotate-90">
+              <i class="bi bi-list"></i>
+            </button>
+            <div id="mobileMenu" class="absolute right-0 mt-2 w-56 bg-black rounded-xl shadow-xl hidden z-50 overflow-hidden">
+              <a href="/" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Home</a>
+              <a href="#about" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">About</a>
+              <a href="#services" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Services</a>
+              <a href="#technologies" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Technologies</a>
+              <a href="#contact" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Contact</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <main class="flex-grow relative overflow-hidden py-8">
+        <div class="absolute inset-0 lg:hidden">
+          <img src="static/Images/face 1.gif"
+               alt="Background"
+               class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+        <div class="hidden lg:block absolute inset-0 bg-[url('/static/Images/face 1.gif')] bg-cover bg-center bg-no-repeat">
+          <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="max-w-3xl">
+              <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+                HELLO.<br />
+                <span class="text-indigo-500">WE ARE ARTINEX.</span>
+              </h1>
+              <p class="text-xl sm:text-2xl md:text-3xl text-white/90 font-light mb-4 sm:mb-6">
+                Transform Your Business With Us.
+              </p>
+              <p class="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed text-justify">
+                ARTINEX delivers advanced artificial intelligence solutions for enterprises, defense innovation, and high-impact industries worldwide.
+                From intelligent automation to autonomous systems and mission-critical AI architectures, we design systems that perform at scale.
+                Our AI products are part of the solutions for the future.
+              </p>
+              <a href="/signup" class="btn-animated px-5 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center inline-block text-sm sm:text-base">
+                Get Started Today
+              </a>
+            </div>
+            <div class="hidden lg:block">
+              <img src="static/Images/face 1.gif"
+                   alt="AI Technology"
+                   class="rounded-2xl shadow-2xl w-[500px] h-[400px] object-cover animate-float">
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- About Us Section -->
+      <section id="about" class="py-16 px-6 bg-[#0a0a0a]">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+              <img src="static/Images/1616944778816.gif"
+                   alt="Career success"
+                   class="rounded-2xl shadow-xl w-full h-auto object-cover animate-float">
+            </div>
+            <div class="lg:w-1/2">
+              <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">About Us</h2>
+              <p class="text-lg text-white mb-6 text-justify">
+                ARNA Technologies is an AI research and development firm specializing in building scalable, intelligent, and secure software ecosystems.
+              </p>
+              <p class="text-lg text-white mb-8 text-justify">
+                Established with a vision to accelerate innovation through artificial intelligence, ARNA focuses on crafting custom AI-driven solutions that empower startups and enterprises globally.
+              </p>
+              <p class="text-lg text-white mb-6 text-justify">
+                Our operations are structured through our associate company, ArtiNex, which delivers end-to-end AI/ML, automation, and deep learning products for businesses across the US and Europe.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#contact" class="btn-animated px-6 py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center">
+                  Get Started Today
+                </a>
+                <a href="#services" class="btn-animated px-6 py-3 border border-indigo-600 text-indigo-600 font-medium rounded-lg hover:bg-indigo-50 text-center">
+                  Explore Services
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+ <!-- Services Section -->
+<section id="services" class="py-20 bg-[#0a0a0a]">
+<!--bg-gradient-to-b from-black to-gray-900 px-6-->
+  <div class="max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">What We Offer</span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Our <span class="text-indigo-500">Services</span></h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+        Cutting-edge AI solutions tailored to transform your business and drive innovation
+      </p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Service 1: Computer Vision -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-camera-reels text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Computer Vision</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Advanced image recognition and processing solutions for object detection, facial recognition, and visual quality control systems.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 2: Model Training -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-cpu text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Model Training</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Custom ML model development and training pipelines optimized for your specific use cases and business requirements.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 3: Anomaly Detection -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-exclamation-triangle text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Anomaly Detection</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Real-time monitoring and detection of unusual patterns in data streams, transactions, and system behaviors.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 4: Time Series Forecasting -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-graph-up-arrow text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Time Series Forecasting</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Predictive analytics for demand forecasting, financial trends, and operational planning with high accuracy.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 5: RAG Chatbot -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-chat-dots text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">RAG Chatbot</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Retrieval-Augmented Generation chatbots with enterprise knowledge integration for accurate, context-aware responses.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 6: Chatbot Fine-tuning -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-sliders2 text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Chatbot Fine-tuning</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Custom LLM fine-tuning services to align AI responses with your brand voice and specific industry requirements.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+
+      <!-- Service 7: Agentic AI / AI Agents -->
+      <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group lg:col-start-2">
+        <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+          <i class="bi bi-robot text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Agentic AI / AI Agents</h3>
+        <p class="text-gray-400 leading-relaxed">
+          Autonomous AI agents capable of complex decision-making, task execution, and workflow automation without human intervention.
+        </p>
+        <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="text-sm font-medium">Learn more</span>
+          <i class="bi bi-arrow-right ml-2"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional: Add CTA at bottom -->
+    <div class="text-center mt-16">
+      <a href="/contact" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105">
+        Explore All Services
+        <i class="bi bi-arrow-right ml-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Technologies Section -->
+<section id="technologies" class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Our Tech Stack</span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Technologies <span class="text-indigo-500">We Use</span></h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+        Powered by cutting-edge tools and frameworks to deliver enterprise-grade AI solutions
+      </p>
+    </div>
+
+    <!-- Categories -->
+    <div class="space-y-12">
+      <!-- Category 1: Machine Learning Frameworks -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Machine Learning & Deep Learning</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- Scikit-learn -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://scikit-learn.org/stable/_static/scikit-learn-logo-small.png" alt="Scikit-learn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Scikit-learn</span>
+          </div>
+
+          <!-- TensorFlow -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.tensorflow.org/images/tf_logo_social.png" alt="TensorFlow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">TensorFlow</span>
+          </div>
+
+          <!-- PyTorch -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://pytorch.org/assets/images/pytorch-logo.png" alt="PyTorch" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">PyTorch</span>
+          </div>
+
+          <!-- Keras -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://keras.io/img/logo.png" alt="Keras" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Keras</span>
+          </div>
+
+          <!-- PyOD -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/yzhao062/Pyod/master/docs/images/pyod-logo.png" alt="PyOD" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">PyOD</span>
+          </div>
+
+          <!-- DeepOD -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/wxl1996/DeepOD/main/docs/source/_static/deepod-logo.png" alt="DeepOD" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">DeepOD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2: Computer Vision & Tracking -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Computer Vision & Object Tracking</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- DeepSORT -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/nwojke/deep_sort/master/resources/logo.png" alt="DeepSORT" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">DeepSORT</span>
+          </div>
+
+          <!-- ByteTrack -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/ifzhang/ByteTrack/main/assets/banner.png" alt="ByteTrack" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">ByteTrack</span>
+          </div>
+
+          <!-- Norfair -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/tryolabs/norfair/master/docs/logo.png" alt="Norfair" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Norfair</span>
+          </div>
+
+          <!-- PySceneDetect -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/Breakthrough/PySceneDetect/master/docs/img/pyscenedetect_logo.png" alt="PySceneDetect" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">PySceneDetect</span>
+          </div>
+
+          <!-- Dlib -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="http://dlib.net/images/dlib-logo.png" alt="Dlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Dlib</span>
+          </div>
+
+          <!-- Theano -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/Theano/Theano/master/doc/images/theano_logo.png" alt="Theano" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Theano</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3: Multimedia & Processing -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Multimedia & Processing</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- FFmpeg -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://ffmpeg.org/ffmpeg-logo.png" alt="FFmpeg" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">FFmpeg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: NLP & LLMs -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">NLP & Large Language Models</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- NLTK -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.nltk.org/images/nltk-logo.png" alt="NLTK" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">NLTK</span>
+          </div>
+
+          <!-- SpaCy -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://spacy.io/static/spacy-logo.png" alt="SpaCy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">SpaCy</span>
+          </div>
+
+          <!-- HuggingFace -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">HuggingFace</span>
+          </div>
+
+          <!-- Ollama -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://ollama.ai/public/ollama.png" alt="Ollama" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Ollama</span>
+          </div>
+
+          <!-- LangChain -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://langchain.com/static/logo.png" alt="LangChain" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">LangChain</span>
+          </div>
+
+          <!-- LangGraph -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://langchain.com/static/langgraph-logo.png" alt="LangGraph" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">LangGraph</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 5: Data Science & Visualization -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Data Science & Visualization</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- NumPy -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://numpy.org/images/logo.svg" alt="NumPy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">NumPy</span>
+          </div>
+
+          <!-- Pandas -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://pandas.pydata.org/static/img/pandas.svg" alt="Pandas" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Pandas</span>
+          </div>
+
+          <!-- Matplotlib -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://matplotlib.org/stable/_images/sphx_glr_logos_003.png" alt="Matplotlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Matplotlib</span>
+          </div>
+
+          <!-- Seaborn -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Seaborn</span>
+          </div>
+
+          <!-- Kaggle -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.kaggle.com/static/images/site-logo.png" alt="Kaggle" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Kaggle</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 6: Vector Databases -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Vector Databases</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- ChromaDB -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://docs.trychroma.com/logo.png" alt="ChromaDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">ChromaDB</span>
+          </div>
+
+          <!-- MilvusDB -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://milvus.io/static/milvus-logo.png" alt="MilvusDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">MilvusDB</span>
+          </div>
+
+          <!-- Pinecone -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.pinecone.io/images/logo.png" alt="Pinecone" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Pinecone</span>
+          </div>
+
+          <!-- QL -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://raw.githubusercontent.com/qdrant/qdrant/master/docs/logo.png" alt="QL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">QL/Qdrant</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 7: Databases & ORMs -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Databases & ORMs</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- MySQL -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">MySQL</span>
+          </div>
+
+          <!-- PostgreSQL -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">PostgreSQL</span>
+          </div>
+
+          <!-- SQLAlchemy -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://www.sqlalchemy.org/img/sqla_logo.png" alt="SQLAlchemy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">SQLAlchemy</span>
+          </div>
+
+          <!-- MongoDB -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-58c93d2ea5.png" alt="MongoDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">MongoDB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 8: Web Frameworks & Cloud -->
+      <div>
+        <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Web Frameworks & Cloud</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- Flask -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://flask.palletsprojects.com/en/stable/_images/flask-logo.png" alt="Flask" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">Flask</span>
+          </div>
+
+          <!-- FastAPI -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="FastAPI" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">FastAPI</span>
+          </div>
+
+          <!-- AWS -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">AWS</span>
+          </div>
+
+          <!-- MLflow -->
+          <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+            <img src="https://mlflow.org/img/logo-black.png" alt="MLflow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+            <span class="text-white font-medium text-sm">MLflow</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <!-- Testimonials -->
+<section class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Client Feedback</span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Success <span class="text-indigo-500">Stories</span></h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+        Hear from people who transformed their careers with our platform
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+        <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-quote text-white text-xl"></i>
+        </div>
+        <p class="text-gray-300 mb-4 italic leading-relaxed">
+          "The mock interview feature helped me identify weaknesses I didn't even know I had. I went from multiple rejections to landing my dream job in 3 months!"
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah J." class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h4 class="font-bold text-white">Sarah J.</h4>
+            <p class="text-sm text-gray-400">Product Manager</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+        <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-quote text-white text-xl"></i>
+        </div>
+        <p class="text-gray-300 mb-4 italic leading-relaxed">
+          "The resume analysis pointed out gaps in my skills that I was able to address before applying. I got 3 interview invitations in the first week!"
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h4 class="font-bold text-white">Michael T.</h4>
+            <p class="text-sm text-gray-400">Software Engineer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+        <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-quote text-white text-xl"></i>
+        </div>
+        <p class="text-gray-300 mb-4 italic leading-relaxed">
+          "As a career changer, I was lost on how to present my experience. The AI helped me reframe my background in a way that got me multiple offers."
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Priya K." class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h4 class="font-bold text-white">Priya K.</h4>
+            <p class="text-sm text-gray-400">Data Analyst</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional: Add rating or stats -->
+    <div class="flex justify-center mt-12 gap-8">
+      <div class="text-center">
+        <div class="text-3xl font-bold text-indigo-500">5+</div>
+        <div class="text-sm text-gray-400">Success Stories</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl font-bold text-indigo-500">4.9/5</div>
+        <div class="text-sm text-gray-400">Client Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Contact Section -->
+<section id="contact" class="py-20 bg-gradient-to-b from-black to-gray-900 px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Get In Touch</span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Contact <span class="text-indigo-500">Us</span></h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+        Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <!-- Contact Information -->
+      <div class="space-y-8">
+        <div class="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold text-white mb-6">Let's Talk</h3>
+
+          <!-- Info Items -->
+          <div class="space-y-6">
+            <!-- Email -->
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-envelope-fill text-indigo-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Email</h4>
+                <a href="mailto:contact@artinex.ai" class="text-gray-400 hover:text-indigo-400 transition-colors">contact@artinex.ai</a>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-telephone-fill text-indigo-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Phone</h4>
+                <a href="tel:+1234567890" class="text-gray-400 hover:text-indigo-400 transition-colors">+1 (234) 567-890</a>
+              </div>
+            </div>
+
+            <!-- Office -->
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-geo-alt-fill text-indigo-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-semibold mb-1">Office</h4>
+                <p class="text-gray-400">123 AI Street, Tech Valley<br>CA 94043, United States</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="mt-8 pt-8 border-t border-gray-700">
+            <h4 class="text-white font-semibold mb-4">Follow Us</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                <i class="bi bi-linkedin text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                <i class="bi bi-twitter text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                <i class="bi bi-facebook text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                <i class="bi bi-whatsapp text-white"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
+        <form id="contactForm" class="space-y-6" method="POST" action="/contact">
+          <!-- Full Name -->
+          <div>
+            <label for="fullname" class="block text-white font-medium mb-2">Full Name <span class="text-indigo-500">*</span></label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="bi bi-person-fill text-gray-500"></i>
+              </div>
+              <input type="text"
+                     id="fullname"
+                     name="fullname"
+                     placeholder="John Doe"
+                     class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                     required>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-white font-medium mb-2">Email Address <span class="text-indigo-500">*</span></label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="bi bi-envelope-fill text-gray-500"></i>
+              </div>
+              <input type="email"
+                     id="email"
+                     name="email"
+                     placeholder="john@example.com"
+                     class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                     required>
+            </div>
+          </div>
+
+          <!-- Phone Number -->
+          <div>
+            <label for="phone" class="block text-white font-medium mb-2">Phone Number</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="bi bi-telephone-fill text-gray-500"></i>
+              </div>
+              <input type="tel"
+                     id="phone"
+                     name="phone"
+                     placeholder="+1 (234) 567-890"
+                     class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors">
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label for="message" class="block text-white font-medium mb-2">Message <span class="text-indigo-500">*</span></label>
+            <div class="relative">
+              <div class="absolute top-3 left-3 pointer-events-none">
+                <i class="bi bi-chat-dots-fill text-gray-500"></i>
+              </div>
+              <textarea id="message"
+                        name="message"
+                        rows="5"
+                        placeholder="Tell us about your project..."
+                        class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
+                        required></textarea>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button type="submit"
+                    class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+              <span>Send Message</span>
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+
+          <!-- Form Note -->
+          <p class="text-sm text-gray-500 text-center">
+            Fields marked with <span class="text-indigo-500">*</span> are required
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer/Copyright Section - Updated with auto-year -->
+    <div class="border-t border-indigo-800/30 pt-8 mt-16 text-center">
+      <p class="text-indigo-300/70 text-sm">
+        &copy; <span id="currentYear"></span> ARTINAX. All rights reserved. |
+        <a href="/privacy" class="hover:text-indigo-400 transition-colors">Privacy Policy</a> |
+        <a href="/terms" class="hover:text-indigo-400 transition-colors">Terms of Service</a>
+      </p>
+      <p class="text-indigo-300/50 text-xs mt-2">
+        Powered by ARNA TECHNOLOGIES
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Toggle Script -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+
+      // Here you would typically send the data to your backend
+      console.log('Form submitted:', data);
+
+      // Show success message (you can customize this)
+      alert('Thank you for your message! We will get back to you soon.');
+
+      // Reset form
+      this.reset();
+    });
+
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("hidden");
+    }
+
+    // Animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.feature-card, .about-section, .testimonial').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+     // Auto-update copyright year
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // Form handling
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+
+        // Here you would typically send the data to your backend
+        console.log('Form submitted:', data);
+
+        // Show success message
+        alert('Thank you for your message! We will get back to you soon.');
+
+        // Reset form
+        this.reset();
+      });
+  </script>
+</body>
+</html>
