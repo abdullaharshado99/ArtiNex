@@ -89,31 +89,170 @@
 
 <body class="bg-gradient-to-br from-black-50 to-black-100 min-h-screen flex flex-col justify-between font-sans">
 
-<!--    &lt;!&ndash; ✅ Announcement Modal &ndash;&gt;-->
-<!--  <div id="announcementModal" class="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">-->
-<!--    <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-xl relative text-gray-800 animate-fade-in">-->
-<!--      <button onclick="document.getElementById('announcementModal').style.display='none'" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</button>-->
-<!--      <div class="flex justify-center mb-6">-->
-<!--        <div class="flex items-center space-x-2">-->
-<!--          <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
+<!--&lt;!&ndash; ✅ Announcement Modal &ndash;&gt;-->
+<!--<div id="announcementModal" class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300">-->
+<!--  <div class="bg-gradient-to-b from-gray-900 to-black p-8 rounded-2xl shadow-2xl w-full max-w-xl relative text-gray-200 border border-indigo-500/30 transform transition-all duration-300 scale-100 animate-fade-in-up">-->
+
+<!--    &lt;!&ndash; Close Button &ndash;&gt;-->
+<!--    <button onclick="closeAnnouncementModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white hover:bg-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200">-->
+<!--      <i class="bi bi-x-lg text-xl"></i>-->
+<!--    </button>-->
+
+<!--    &lt;!&ndash; Logo & Header &ndash;&gt;-->
+<!--    <div class="flex flex-col items-center mb-6">-->
+<!--      <div class="flex items-center justify-center space-x-2 mb-4">-->
+<!--        <div class="w-12 h-12 bg-indigo-600/20 rounded-2xl flex items-center justify-center">-->
+<!--          <svg class="w-6 h-6 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
 <!--            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>-->
 <!--          </svg>-->
-<!--          <h1 class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">AI Career Assistant</h1>-->
 <!--        </div>-->
+<!--        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 font-display">ARTI<span class="text-indigo-500">NEX</span></h1>-->
 <!--      </div>-->
 
-<!--    <h2 class="text-3xl font-bold text-center text-indigo-800 mb-2 font-display">Welcome</h2>-->
-<!--      <h3 class="text-xl font-semibold mb-4 text-indigo-700">📢 Announcements</h3>-->
-<!--      <ul class="space-y-4 max-h-60 overflow-y-auto pr-2">-->
+<!--      <h2 class="text-4xl font-bold text-center text-white mb-2 font-display">Welcome</h2>-->
+<!--      <div class="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mb-4"></div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Announcements Section &ndash;&gt;-->
+<!--    <div class="bg-gray-800/30 rounded-xl p-5 border border-gray-700">-->
+<!--      <div class="flex items-center mb-4">-->
+<!--        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center mr-3">-->
+<!--          <i class="bi bi-megaphone-fill text-indigo-400"></i>-->
+<!--        </div>-->
+<!--        <h3 class="text-xl font-semibold text-white">Latest Announcements</h3>-->
+<!--        <span class="ml-auto bg-indigo-500/20 text-indigo-400 text-xs px-2 py-1 rounded-full">{{ announcements|length }} New</span>-->
+<!--      </div>-->
+
+<!--      {% if announcements %}-->
+<!--      <ul class="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">-->
 <!--        {% for ann in announcements %}-->
-<!--          <li class="border-l-4 border-indigo-500 pl-4">-->
-<!--            <p>{{ ann.message }}</p>-->
-<!--            <small class="text-sm text-gray-500">{{ ann.created_at.strftime('%b %d, %Y') }}</small>-->
-<!--          </li>-->
+<!--        <li class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-indigo-500/50 transition-all duration-300 group">-->
+<!--          <div class="flex items-start">-->
+<!--            <div class="w-8 h-8 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 group-hover:bg-indigo-500 transition-colors">-->
+<!--              <i class="bi bi-megaphone text-indigo-400 text-sm group-hover:text-white transition-colors"></i>-->
+<!--            </div>-->
+<!--            <div class="flex-1">-->
+<!--              <p class="text-gray-200 text-sm leading-relaxed">{{ ann.message }}</p>-->
+<!--              <div class="flex items-center mt-2 text-xs text-gray-500">-->
+<!--                <i class="bi bi-calendar3 mr-1"></i>-->
+<!--                <span>{{ ann.created_at.strftime('%b %d, %Y') }}</span>-->
+<!--                {% if loop.first %}-->
+<!--                <span class="ml-2 bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-[10px]">New</span>-->
+<!--                {% endif %}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </li>-->
 <!--        {% endfor %}-->
 <!--      </ul>-->
+<!--      {% else %}-->
+<!--      <div class="text-center py-8">-->
+<!--        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-3">-->
+<!--          <i class="bi bi-megaphone text-gray-600 text-2xl"></i>-->
+<!--        </div>-->
+<!--        <p class="text-gray-500">No announcements yet</p>-->
+<!--        <p class="text-sm text-gray-600 mt-1">Check back later for updates</p>-->
+<!--      </div>-->
+<!--      {% endif %}-->
 <!--    </div>-->
+
+<!--    &lt;!&ndash; Footer with CTA &ndash;&gt;-->
+<!--    <div class="mt-6 flex flex-col sm:flex-row gap-3">-->
+<!--      <button onclick="closeAnnouncementModal()" class="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105">-->
+<!--        <i class="bi bi-check-circle mr-2"></i>-->
+<!--        Got it-->
+<!--      </button>-->
+<!--      <button onclick="dontShowToday()" class="flex-1 px-4 py-3 bg-gray-800 text-gray-300 font-medium rounded-lg hover:bg-gray-700 transition-all duration-300 border border-gray-700">-->
+<!--        <i class="bi bi-clock mr-2"></i>-->
+<!--        Don't show today-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Small Note &ndash;&gt;-->
+<!--    <p class="text-center text-xs text-gray-600 mt-4">-->
+<!--      Stay updated with the latest features and announcements from ARTINEX-->
+<!--    </p>-->
 <!--  </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Add this CSS for custom scrollbar &ndash;&gt;-->
+<!--<style>-->
+<!--  .custom-scrollbar::-webkit-scrollbar {-->
+<!--    width: 6px;-->
+<!--  }-->
+<!--  .custom-scrollbar::-webkit-scrollbar-track {-->
+<!--    background: #1f2937;-->
+<!--    border-radius: 10px;-->
+<!--  }-->
+<!--  .custom-scrollbar::-webkit-scrollbar-thumb {-->
+<!--    background: #4f46e5;-->
+<!--    border-radius: 10px;-->
+<!--  }-->
+<!--  .custom-scrollbar::-webkit-scrollbar-thumb:hover {-->
+<!--    background: #6366f1;-->
+<!--  }-->
+
+<!--  @keyframes fadeInUp {-->
+<!--    from {-->
+<!--      opacity: 0;-->
+<!--      transform: translateY(20px);-->
+<!--    }-->
+<!--    to {-->
+<!--      opacity: 1;-->
+<!--      transform: translateY(0);-->
+<!--    }-->
+<!--  }-->
+<!--  .animate-fade-in-up {-->
+<!--    animation: fadeInUp 0.4s ease-out;-->
+<!--  }-->
+<!--</style>-->
+
+<!--&lt;!&ndash; JavaScript for Modal Functions &ndash;&gt;-->
+<!--<script>-->
+<!--  // Check if modal should be shown (using localStorage)-->
+<!--  document.addEventListener('DOMContentLoaded', function() {-->
+<!--    const dontShowToday = localStorage.getItem('hideAnnouncements');-->
+<!--    const lastHiddenDate = localStorage.getItem('announcementsHiddenDate');-->
+<!--    const today = new Date().toDateString();-->
+
+<!--    if (dontShowToday === 'true' && lastHiddenDate === today) {-->
+<!--      document.getElementById('announcementModal').style.display = 'none';-->
+<!--    }-->
+<!--  });-->
+
+<!--  function closeAnnouncementModal() {-->
+<!--    document.getElementById('announcementModal').style.display = 'none';-->
+<!--  }-->
+
+<!--  function dontShowToday() {-->
+<!--    // Store in localStorage that user doesn't want to see today-->
+<!--    localStorage.setItem('hideAnnouncements', 'true');-->
+<!--    localStorage.setItem('announcementsHiddenDate', new Date().toDateString());-->
+<!--    closeAnnouncementModal();-->
+
+<!--    // Show a small toast notification-->
+<!--    showToast('Announcements hidden for today');-->
+<!--  }-->
+
+<!--  // Toast notification function-->
+<!--  function showToast(message) {-->
+<!--    const toast = document.createElement('div');-->
+<!--    toast.className = 'fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-[1000] border border-indigo-500/30 animate-fade-in-up';-->
+<!--    toast.innerHTML = `<i class="bi bi-check-circle-fill text-green-500 mr-2"></i>${message}`;-->
+<!--    document.body.appendChild(toast);-->
+
+<!--    setTimeout(() => {-->
+<!--      toast.remove();-->
+<!--    }, 3000);-->
+<!--  }-->
+
+<!--  // Optional: Reset localStorage (for testing)-->
+<!--  function resetAnnouncementSettings() {-->
+<!--    localStorage.removeItem('hideAnnouncements');-->
+<!--    localStorage.removeItem('announcementsHiddenDate');-->
+<!--    location.reload();-->
+<!--  }-->
+<!--</script>-->
 
       <!-- Navbar -->
       <header class="bg-black/90 shadow-lg backdrop-blur sticky top-0 z-50">
@@ -773,15 +912,18 @@
                 <i class="bi bi-quote text-white text-xl"></i>
               </div>
               <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "The mock interview feature helped me identify weaknesses I didn't even know I had. I went from multiple rejections to landing my dream job in 3 months!"
+                "The machine learning model developed for our network security system has been exceptional.
+                It detects and blocks malicious domains in real-time with <span class="text-indigo-400 font-semibold">94.98% accuracy</span> across 43 malware families.
+                The GRU-based architecture with NLP feature extraction integrated seamlessly with FastAPI,
+                automatically rejecting threats while maintaining smooth traffic flow. This has significantly enhanced our security infrastructure."
               </p>
               <div class="flex items-center">
                 <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah J." class="w-full h-full object-cover">
+                  <img src="https://avatars.githubusercontent.com/u/43557304?s=200&v=4" alt="Ebryx.Pvt" class="w-full h-full object-cover">
                 </div>
                 <div>
-                  <h4 class="font-bold text-white">Sarah J.</h4>
-                  <p class="text-sm text-gray-400">Product Manager</p>
+                  <h4 class="font-bold text-white">Ehrar Naqvi</h4>
+                  <p class="text-sm text-gray-400">CEO, Ebryx.Pvt.</p>
                 </div>
               </div>
             </div>
@@ -792,15 +934,18 @@
                 <i class="bi bi-quote text-white text-xl"></i>
               </div>
               <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "The resume analysis pointed out gaps in my skills that I was able to address before applying. I got 3 interview invitations in the first week!"
+                "The AI-driven File Management System pipeline developed for our Happhi Web Application transformed how we handle data.
+                It intelligently extracts and processes information from documents, images, audio, and video with remarkable precision.
+                Using <span class="text-indigo-400 font-semibold">GPT-4o for image analysis</span>, Whisper-1 for transcription, and RAG with MilvusDB for semantic search,
+                our team can now retrieve any content instantly. This system is the backbone of our intelligent data infrastructure."
               </p>
               <div class="flex items-center">
                 <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="w-full h-full object-cover">
+                  <img src="https://i.ytimg.com/vi/ZUi4w2N8Ntg/maxresdefault.jpg" alt="HapPhi" class="w-full h-full object-cover">
                 </div>
                 <div>
-                  <h4 class="font-bold text-white">Michael T.</h4>
-                  <p class="text-sm text-gray-400">Software Engineer</p>
+                  <h4 class="font-bold text-white">Erik Bean</h4>
+                  <p class="text-sm text-gray-400">Co-Founder, HapPhi.</p>
                 </div>
               </div>
             </div>
@@ -811,15 +956,18 @@
                 <i class="bi bi-quote text-white text-xl"></i>
               </div>
               <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "As a career changer, I was lost on how to present my experience. The AI helped me reframe my background in a way that got me multiple offers."
+                "The automated scene segmentation pipeline developed for my video analytics project exceeded expectations.
+                It flawlessly combines <span class="text-indigo-400 font-semibold">YOLO for object detection</span>, PySceneDetect for boundary detection, and DeepSORT for tracking across frames.
+                The system intelligently extracts object-specific scenes (like cars) using OpenCV and FFmpeg with GPU acceleration.
+                This real-time video analytics capability would have taken months to build on my own."
               </p>
               <div class="flex items-center">
                 <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Priya K." class="w-full h-full object-cover">
+                  <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Elena K." class="w-full h-full object-cover">
                 </div>
                 <div>
-                  <h4 class="font-bold text-white">Priya K.</h4>
-                  <p class="text-sm text-gray-400">Data Analyst</p>
+                  <h4 class="font-bold text-white">Elena K.</h4>
+                  <p class="text-sm text-gray-400">Software Engineer.</p>
                 </div>
               </div>
             </div>
@@ -969,7 +1117,7 @@
                     </div>
                     <div>
                       <h4 class="text-white font-semibold mb-1">Office</h4>
-                      <p class="text-gray-400">123 AI Street, Tech Valley<br>CA 94043, United States</p>
+                      <p class="text-gray-400">54 Street, Downtown Lake City<br>LC 54000, Pakistan.</p>
                     </div>
                   </div>
                 </div>
