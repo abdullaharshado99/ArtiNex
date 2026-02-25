@@ -333,11 +333,10 @@
                 <span class="text-indigo-500">WE ARE ARTINEX.</span>
               </h1>
               <p class="text-xl sm:text-2xl md:text-3xl text-white/90 font-light mb-4 sm:mb-6">
-                Predict The Next.
+                We Predict What's Next To Transform Your Business.
               </p>
               <p class="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed text-justify">
-                ARTINEX delivers advanced artificial intelligence solutions for enterprises, cybersecurity, and high-impact industries worldwide for more than 2 years.
-                From intelligent automation to autonomous systems and mission-critical AI architectures, we design systems that perform at scale.
+                ARTINEX delivers advanced artificial intelligence solutions for enterprises, cybersecurity, and high-impact industries worldwide.
                 Our AI products are part of the solutions for the future.
               </p>
               <a href="#contact" class="btn-animated px-5 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center inline-block text-sm sm:text-base">
@@ -365,13 +364,10 @@
             <div class="lg:w-1/2">
               <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">About Us</h2>
               <p class="text-lg text-white mb-6 text-justify">
-                ARNA Technologies is an AI research and development firm specializing in building scalable, intelligent, and secure software ecosystems.
+                ARTINEX is an AI-driven software development agency under ARNA TECHNOLOGIES, focused on delivering end-to-end AI/ML, automation, and deep learning products for businesses across the US, Europe and Pakistan.
               </p>
               <p class="text-lg text-white mb-8 text-justify">
-                Established with a vision to accelerate innovation through artificial intelligence, ARNA focuses on crafting custom AI-driven solutions that empower startups and enterprises globally.
-              </p>
-              <p class="text-lg text-white mb-6 text-justify">
-                Our operations are structured through our associate company, ArtiNex, which delivers end-to-end AI/ML, automation, and deep learning products for businesses across the US, Europe and Pakistan.
+                ARTINEX has been providing top-notch services in Machine Learning and Data Sciences for nearly 2 years. From making to deploying the model, it is our duty to complete it. By collaborating with us, you will quickly realize the value our company brings to your projects. Our expertise and dedication will give you the confidence and peace of mind that your project is in capable hands. We are committed to delivering high-quality results and ensuring client satisfaction through effective communication and innovative solutions.
               </p>
               <div class="flex flex-col sm:flex-row gap-4">
                 <a href="#contact" class="btn-animated px-6 py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center">
@@ -1153,8 +1149,6 @@
   <script>
       document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
-      // Get form data
       const formData = new FormData(this);
 
       // Show loading state
@@ -1163,7 +1157,6 @@
       submitBtn.innerHTML = '<span>Sending...</span> <i class="bi bi-hourglass-split"></i>';
       submitBtn.disabled = true;
 
-      // Send data to Flask backend
       fetch('/contact', {
         method: 'POST',
         body: formData
@@ -1185,7 +1178,6 @@
       });
     });
 
-    // Notification function
     function showNotification(message, type) {
       // Create notification element
       const notification = document.createElement('div');
@@ -1207,7 +1199,6 @@
       menu.classList.toggle("hidden");
     }
 
-    // Animation on scroll
     document.addEventListener('DOMContentLoaded', function() {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1229,7 +1220,6 @@
 
       let greeted = false;
 
-      // Check if user has visited before (optional - to avoid annoying repeats)
       const hasVisited = localStorage.getItem('hasVisitedBefore');
 
       // Only play on first visit (remove this condition if you want it every time)
@@ -1248,7 +1238,7 @@
 
         const speak = () => {
           const utterance = new SpeechSynthesisUtterance(
-            "Welcome to Artinex. We transform your business with artificial intelligence."
+            "Hello, I'm ANNA. Welcome to ARTINEX, powered by ARNA Technologies — a platform where we predict what's next to transform your business."
           );
 
           const voices = speechSynthesis.getVoices();
@@ -1269,7 +1259,7 @@
           speak();
         }
       }
-
+      console.log("Triggered!")
       document.addEventListener("pointerdown", playWelcome, { once: true });
   </script>
 
