@@ -47,7 +47,7 @@ def admin_login():
     return render_template('admin_login.html')
 
 @app.route('/contact', methods=["POST"])
-def view_contact():
+def get_contact():
     try:
         fullname = request.form['fullname']
         email = request.form['email']
