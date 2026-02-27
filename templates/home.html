@@ -1,1266 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ARTINEX</title>
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        body {
-          background: #0B0F2F;
-          color: #D6D9F5;
-          font-family: 'Inter', sans-serif;
-        }
-        .tech-card {
-          transition: all 0.3s ease;
-        }
-
-        .tech-card:hover {
-          box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
-        }
-
-        .tech-card img {
-          filter: brightness(0.9);
-          transition: filter 0.3s ease;
-        }
-
-        .tech-card:hover img {
-          filter: brightness(1.1);
-        }
-
-        #artinex-line {
-          stroke-dasharray: 300;
-          stroke-dashoffset: 300;
-          animation: drawLine 2.2s ease-out forwards;
-        }
-
-        @keyframes drawLine {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-              #artinex-line {
-          filter: drop-shadow(0 0 6px #2D6BFF);
-        }
-    </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#4f46e5',
-            secondary: '#6366f1',
-            dark: '#1e1b4b',
-          },
-          fontFamily: {
-            'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
-            'display': ['Poppins', 'ui-sans-serif']
-          },
-          animation: {
-            'float': 'float 6s ease-in-out infinite',
-            'fade-in': 'fadeIn 1s ease-in',
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' },
-            },
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>ARTINEX</title>
+      <link rel="stylesheet" href="static/css/home.css">
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
+      <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: '#4f46e5',
+                secondary: '#6366f1',
+                dark: '#1e1b4b',
+              },
+              fontFamily: {
+                'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+                'display': ['Poppins', 'ui-sans-serif']
+              },
+              animation: {
+                'float': 'float 6s ease-in-out infinite',
+                'fade-in': 'fadeIn 1s ease-in',
+                'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              },
+              keyframes: {
+                float: {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-20px)' },
+                },
+                fadeIn: {
+                  '0%': { opacity: '0' },
+                  '100%': { opacity: '1' },
+                }
+              }
             }
           }
         }
-      }
-    }
-  </script>
-</head>
+      </script>
+    </head>
 
-<body class="bg-gradient-to-br from-black-50 to-black-100 min-h-screen flex flex-col justify-between font-sans">
+    <body class="bg-gradient-to-br from-black-50 to-black-100 min-h-screen flex flex-col justify-between font-sans">
+          <!-- Navbar -->
+          <header class="bg-black/90 shadow-lg backdrop-blur sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+    <!--          <img alt="icon" src="static/Images/favanim.gif" width="205px" height="25px" class="mr-1">-->
+              <a href="/"><img src="/static/images/favanim.gif" alt="ARTINEX" class="w-50 h-9"></a>
 
-<!--&lt;!&ndash; ✅ Announcement Modal &ndash;&gt;-->
-<!--<div id="announcementModal" class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300">-->
-<!--  <div class="bg-gradient-to-b from-gray-900 to-black p-8 rounded-2xl shadow-2xl w-full max-w-xl relative text-gray-200 border border-indigo-500/30 transform transition-all duration-300 scale-100 animate-fade-in-up">-->
-
-<!--    &lt;!&ndash; Close Button &ndash;&gt;-->
-<!--    <button onclick="closeAnnouncementModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white hover:bg-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200">-->
-<!--      <i class="bi bi-x-lg text-xl"></i>-->
-<!--    </button>-->
-
-<!--    &lt;!&ndash; Logo & Header &ndash;&gt;-->
-<!--    <div class="flex flex-col items-center mb-6">-->
-<!--      <div class="flex items-center justify-center space-x-2 mb-4">-->
-<!--        <div class="w-12 h-12 bg-indigo-600/20 rounded-2xl flex items-center justify-center">-->
-<!--          <svg class="w-6 h-6 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
-<!--            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>-->
-<!--          </svg>-->
-<!--        </div>-->
-<!--        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 font-display">ARTI<span class="text-indigo-500">NEX</span></h1>-->
-<!--      </div>-->
-
-<!--      <h2 class="text-4xl font-bold text-center text-white mb-2 font-display">Welcome</h2>-->
-<!--      <div class="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mb-4"></div>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Announcements Section &ndash;&gt;-->
-<!--    <div class="bg-gray-800/30 rounded-xl p-5 border border-gray-700">-->
-<!--      <div class="flex items-center mb-4">-->
-<!--        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center mr-3">-->
-<!--          <i class="bi bi-megaphone-fill text-indigo-400"></i>-->
-<!--        </div>-->
-<!--        <h3 class="text-xl font-semibold text-white">Latest Announcements</h3>-->
-<!--        <span class="ml-auto bg-indigo-500/20 text-indigo-400 text-xs px-2 py-1 rounded-full">{{ announcements|length }} New</span>-->
-<!--      </div>-->
-
-<!--      {% if announcements %}-->
-<!--      <ul class="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">-->
-<!--        {% for ann in announcements %}-->
-<!--        <li class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-indigo-500/50 transition-all duration-300 group">-->
-<!--          <div class="flex items-start">-->
-<!--            <div class="w-8 h-8 bg-indigo-500/10 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 group-hover:bg-indigo-500 transition-colors">-->
-<!--              <i class="bi bi-megaphone text-indigo-400 text-sm group-hover:text-white transition-colors"></i>-->
-<!--            </div>-->
-<!--            <div class="flex-1">-->
-<!--              <p class="text-gray-200 text-sm leading-relaxed">{{ ann.message }}</p>-->
-<!--              <div class="flex items-center mt-2 text-xs text-gray-500">-->
-<!--                <i class="bi bi-calendar3 mr-1"></i>-->
-<!--                <span>{{ ann.created_at.strftime('%b %d, %Y') }}</span>-->
-<!--                {% if loop.first %}-->
-<!--                <span class="ml-2 bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-[10px]">New</span>-->
-<!--                {% endif %}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </li>-->
-<!--        {% endfor %}-->
-<!--      </ul>-->
-<!--      {% else %}-->
-<!--      <div class="text-center py-8">-->
-<!--        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-3">-->
-<!--          <i class="bi bi-megaphone text-gray-600 text-2xl"></i>-->
-<!--        </div>-->
-<!--        <p class="text-gray-500">No announcements yet</p>-->
-<!--        <p class="text-sm text-gray-600 mt-1">Check back later for updates</p>-->
-<!--      </div>-->
-<!--      {% endif %}-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Footer with CTA &ndash;&gt;-->
-<!--    <div class="mt-6 flex flex-col sm:flex-row gap-3">-->
-<!--      <button onclick="closeAnnouncementModal()" class="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105">-->
-<!--        <i class="bi bi-check-circle mr-2"></i>-->
-<!--        Got it-->
-<!--      </button>-->
-<!--      <button onclick="dontShowToday()" class="flex-1 px-4 py-3 bg-gray-800 text-gray-300 font-medium rounded-lg hover:bg-gray-700 transition-all duration-300 border border-gray-700">-->
-<!--        <i class="bi bi-clock mr-2"></i>-->
-<!--        Don't show today-->
-<!--      </button>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Small Note &ndash;&gt;-->
-<!--    <p class="text-center text-xs text-gray-600 mt-4">-->
-<!--      Stay updated with the latest features and announcements from ARTINEX-->
-<!--    </p>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Add this CSS for custom scrollbar &ndash;&gt;-->
-<!--<style>-->
-<!--  .custom-scrollbar::-webkit-scrollbar {-->
-<!--    width: 6px;-->
-<!--  }-->
-<!--  .custom-scrollbar::-webkit-scrollbar-track {-->
-<!--    background: #1f2937;-->
-<!--    border-radius: 10px;-->
-<!--  }-->
-<!--  .custom-scrollbar::-webkit-scrollbar-thumb {-->
-<!--    background: #4f46e5;-->
-<!--    border-radius: 10px;-->
-<!--  }-->
-<!--  .custom-scrollbar::-webkit-scrollbar-thumb:hover {-->
-<!--    background: #6366f1;-->
-<!--  }-->
-
-<!--  @keyframes fadeInUp {-->
-<!--    from {-->
-<!--      opacity: 0;-->
-<!--      transform: translateY(20px);-->
-<!--    }-->
-<!--    to {-->
-<!--      opacity: 1;-->
-<!--      transform: translateY(0);-->
-<!--    }-->
-<!--  }-->
-<!--  .animate-fade-in-up {-->
-<!--    animation: fadeInUp 0.4s ease-out;-->
-<!--  }-->
-<!--</style>-->
-
-<!--&lt;!&ndash; JavaScript for Modal Functions &ndash;&gt;-->
-<!--<script>-->
-<!--  // Check if modal should be shown (using localStorage)-->
-<!--  document.addEventListener('DOMContentLoaded', function() {-->
-<!--    const dontShowToday = localStorage.getItem('hideAnnouncements');-->
-<!--    const lastHiddenDate = localStorage.getItem('announcementsHiddenDate');-->
-<!--    const today = new Date().toDateString();-->
-
-<!--    if (dontShowToday === 'true' && lastHiddenDate === today) {-->
-<!--      document.getElementById('announcementModal').style.display = 'none';-->
-<!--    }-->
-<!--  });-->
-
-<!--  function closeAnnouncementModal() {-->
-<!--    document.getElementById('announcementModal').style.display = 'none';-->
-<!--  }-->
-
-<!--  function dontShowToday() {-->
-<!--    // Store in localStorage that user doesn't want to see today-->
-<!--    localStorage.setItem('hideAnnouncements', 'true');-->
-<!--    localStorage.setItem('announcementsHiddenDate', new Date().toDateString());-->
-<!--    closeAnnouncementModal();-->
-
-<!--    // Show a small toast notification-->
-<!--    showToast('Announcements hidden for today');-->
-<!--  }-->
-
-<!--  // Toast notification function-->
-<!--  function showToast(message) {-->
-<!--    const toast = document.createElement('div');-->
-<!--    toast.className = 'fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-[1000] border border-indigo-500/30 animate-fade-in-up';-->
-<!--    toast.innerHTML = `<i class="bi bi-check-circle-fill text-green-500 mr-2"></i>${message}`;-->
-<!--    document.body.appendChild(toast);-->
-
-<!--    setTimeout(() => {-->
-<!--      toast.remove();-->
-<!--    }, 3000);-->
-<!--  }-->
-
-<!--  // Optional: Reset localStorage (for testing)-->
-<!--  function resetAnnouncementSettings() {-->
-<!--    localStorage.removeItem('hideAnnouncements');-->
-<!--    localStorage.removeItem('announcementsHiddenDate');-->
-<!--    location.reload();-->
-<!--  }-->
-<!--</script>-->
-
-      <!-- Navbar -->
-      <header class="bg-black/90 shadow-lg backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-<!--          <img alt="icon" src="static/Images/favanim.gif" width="205px" height="25px" class="mr-1">-->
-          <a href="/"><img src="/static/images/favanim.gif" alt="ARTINEX" class="w-50 h-9"></a>
-
-          <!-- Desktop Nav -->
-          <nav class="hidden md:flex space-x-8 items-center justify-center">
-            <a href="/" class="text-white  hover:text-indigo-900 transition-colors duration-300 relative group">
-              Home
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#about" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
-              About
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#services" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
-              Services
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#technologies" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
-              Technologies
-              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="#contact" class="btn-animated px-6 py-3 border border-indigo-600 text-white rounded-lg ">
-                  Get In Touch
-            </a>
-<!--            <a href="/admin/contacts" class="btn-animated inline-flex px-10 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 text-lg tracking-wide">-->
-<!--              Login-->
-<!--            </a>-->
-          </nav>
-
-          <!-- Mobile Menu -->
-          <div class="md:hidden relative">
-            <button onclick="toggleMenu()" class="text-indigo-700 text-3xl focus:outline-none transition-transform duration-300 hover:rotate-90">
-              <i class="bi bi-list"></i>
-            </button>
-            <div id="mobileMenu" class="absolute right-0 mt-2 w-56 bg-black rounded-xl shadow-xl hidden z-50 overflow-hidden">
-              <a href="/" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Home</a>
-              <a href="#about" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">About</a>
-              <a href="#services" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Services</a>
-              <a href="#technologies" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Technologies</a>
-              <a href="#contact" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Get In Touch</a>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Hero Section -->
-      <main class="flex-grow relative overflow-hidden py-8">
-        <div class="absolute inset-0 lg:hidden">
-          <img src="static/Images/face.jpg"
-               alt="Background"
-               class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/70"></div>
-        </div>
-<!--        <div class="hidden lg:block absolute inset-0 bg-[url('/static/Images/faceee.jpg')] bg-right bg-no-repeat" style="background-position: 100% 52%; background-size: 55% 95%;">-->
-<!--          <div class="absolute inset-0 bg-black/70"></div>-->
-<!--        </div>-->
-        <!-- Desktop Image - With exact positioning -->
-<div class="hidden lg:block absolute inset-0">
-  <div class="relative w-full h-full">
-    <img src="https://t4.ftcdn.net/jpg/19/03/49/37/360_F_1903493767_KSGJDBZSgodXappsCLenVaRKs48YDE2V.jpg"
-         alt="AI Technology"
-         class="absolute"
-         style="right: 0; top: 50%; transform: translateY(-52%); width: 55%; height: 95%; object-fit: cover; object-position: right; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
-    <div class="absolute inset-0 bg-black/70"></div>
-  </div>
-</div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <!-- Left Content -->
-            <div class="max-w-3xl">
-              <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight">
-                HELLO.<br />
-                <span class="text-indigo-500">WE ARE ARTINEX.</span>
-              </h1>
-              <p class="text-xl sm:text-2xl md:text-3xl text-white/90 font-light mb-4 sm:mb-6">
-                We Predict What's Next To Transform Your Business.
-              </p>
-              <p class="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed text-justify">
-                ARTINEX delivers advanced artificial intelligence solutions for enterprises, cybersecurity, and high-impact industries worldwide.
-                Our AI products are part of the solutions for the future.
-              </p>
-              <a href="#contact" class="btn-animated px-5 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center inline-block text-sm sm:text-base">
-                Get Started Today
-              </a>
-            </div>
-<!--            <div class="hidden lg:block">-->
-<!--              <img src="static/Images/face.jpg"-->
-<!--                   alt="AI Technology"-->
-<!--                   class="rounded-2xl shadow-2xl w-[500px] h-[400px] object-cover animate-float">-->
-<!--            </div>-->
-          </div>
-        </div>
-      </main>
-
-      <!-- About Us Section -->
-      <section id="about" class="py-16 px-6 bg-[#0a0a0a]">
-        <div class="max-w-6xl mx-auto">
-          <div class="flex flex-col lg:flex-row items-center gap-12">
-            <div class="lg:w-1/2">
-              <img src="static/Images/1616944778816.gif"
-                   alt="Career success"
-                   class="rounded-2xl shadow-xl w-full h-auto object-cover animate-float">
-            </div>
-            <div class="lg:w-1/2">
-              <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">About Us</h2>
-              <p class="text-lg text-white mb-6 text-justify">
-                ARTINEX is an AI-driven software development agency under ARNA TECHNOLOGY, focused on delivering end-to-end AI/ML, automation, and deep learning products for businesses across the US, Europe and Pakistan.
-              </p>
-              <p class="text-lg text-white mb-8 text-justify">
-                ARTINEX has been providing top-notch services in Machine Learning and Data Sciences for nearly 2 years. From making to deploying the model, it is our duty to complete it. By collaborating with us, you will quickly realize the value our company brings to your projects. Our expertise and dedication will give you the confidence and peace of mind that your project is in capable hands. We are committed to delivering high-quality results and ensuring client satisfaction through effective communication and innovative solutions.
-              </p>
-              <div class="flex flex-col sm:flex-row gap-4">
-                <a href="#contact" class="btn-animated px-6 py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center">
-                  Get Started Today
+              <!-- Desktop Nav -->
+              <nav class="hidden md:flex space-x-8 items-center justify-center">
+                <a href="/" class="text-white  hover:text-indigo-900 transition-colors duration-300 relative group">
+                  Home
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#services" class="btn-animated px-6 py-3 border border-indigo-600 text-indigo-600 font-medium rounded-lg hover:bg-indigo-50 text-center">
-                  Explore Services
+                <a href="#about" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
+                  About
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                <a href="#services" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
+                  Services
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#technologies" class="text-white hover:text-indigo-900 transition-colors duration-300 relative group">
+                  Technologies
+                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="btn-animated px-6 py-3 border border-indigo-600 text-white rounded-lg ">
+                      Get In Touch
+                </a>
+              </nav>
 
-      <!-- Services Section -->
-      <section id="services" class="py-20 bg-[#0a0a0a]">
-        <div class="max-w-7xl mx-auto">
-          <!-- Section Header -->
-          <div class="text-center mb-16">
-            <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">What We Offer</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Our <span class="text-indigo-500">Services</span></h2>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-              Cutting-edge AI solutions tailored to transform your business and drive innovation
-            </p>
-          </div>
-
-          <!-- Services Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Service 1: Computer Vision -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-camera-reels text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Computer Vision</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Advanced image recognition and processing solutions for object detection, facial recognition, and visual quality control systems.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">OpenCV</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">YOLO</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">MediaPipe</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Detectron2</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 2: Model Training -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-cpu text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Model Training</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Custom ML model development and training pipelines optimized for your specific use cases and business requirements.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">TensorFlow</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">PyTorch</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Scikit-learn</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">XGBoost</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 3: Transfer Learning & Pre-trained Models -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-boxes text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Transfer Learning & Pre-trained Models</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Fine-tune state-of-the-art pre-trained models including YOLO, SAM, ResNet, BERT, GPT and more.
-                Accelerate development with transfer learning for custom computer vision and NLP tasks.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">YOLOv8</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">SAM</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">DINOv2</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">BERT</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 4: Anomaly Detection -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-exclamation-triangle text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Anomaly Detection</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Real-time monitoring and detection of unusual patterns in data streams, transactions, and system behaviors.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">PyOD</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">DeepOD</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Isolation Forest</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Autoencoders</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 5: Time Series Forecasting -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-graph-up-arrow text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Time Series Forecasting</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Predictive analytics for demand forecasting, financial trends, and operational planning with high accuracy.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Prophet</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">ARIMA</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LSTM</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Transformer</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 6: RAG Chatbot -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-chat-dots text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">RAG Chatbot</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Retrieval-Augmented Generation chatbots with enterprise knowledge integration for accurate, context-aware responses.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LangChain</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LlamaIndex</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">ChromaDB</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">OpenAI</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 7: Chatbot Fine-tuning -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-sliders2 text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Chatbot Fine-tuning</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Custom LLM fine-tuning services to align AI responses with your brand voice and specific industry requirements.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">HuggingFace</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LoRA</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">QLoRA</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Ollama</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 8: AI Integration (Web & Mobile Apps) -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-phone-fill text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">AI Integration: Web & Mobile Apps</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Seamlessly integrate AI models into production-ready web applications and mobile apps.
-                From REST APIs to on-device ML, we deploy your solutions across all platforms.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Flask/FastAPI</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">React Native</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">iOS/Android</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Next.JS/React.JS</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-
-            <!-- Service 9: Agentic AI / AI Agents -->
-            <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
-                <i class="bi bi-robot text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
-              </div>
-              <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Agentic AI / AI Agents</h3>
-              <p class="text-gray-400 leading-relaxed">
-                Autonomous AI agents capable of complex decision-making, task execution, and workflow automation without human intervention.
-              </p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">AutoGen</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LangGraph</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">CrewAI</span>
-                <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Semantic Kernel</span>
-              </div>
-              <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="text-sm font-medium">Learn more</span>
-                <i class="bi bi-arrow-right ml-2"></i>
-              </div>
-            </div>
-          </div>
-
-
-
-      <!--    &lt;!&ndash; Optional: Add CTA at bottom &ndash;&gt;-->
-      <!--    <div class="text-center mt-16">-->
-      <!--      <a href="/contact" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105">-->
-      <!--        Explore All Services-->
-      <!--        <i class="bi bi-arrow-right ml-2"></i>-->
-      <!--      </a>-->
-      <!--    </div>-->
-        </div>
-      </section>
-
-      <!-- Technologies Section -->
-      <section id="technologies" class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
-        <div class="max-w-7xl mx-auto">
-          <!-- Section Header -->
-          <div class="text-center mb-16">
-            <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Our Tech Stack</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Technologies <span class="text-indigo-500">We Use</span></h2>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-              Powered by cutting-edge tools and frameworks to deliver enterprise-grade AI solutions
-            </p>
-          </div>
-
-          <!-- Categories -->
-          <div class="space-y-12">
-            <!-- Category 1: Machine Learning Frameworks -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Machine Learning & Deep Learning</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- Scikit-learn -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://scikit-learn.org/stable/_static/scikit-learn-logo-small.png" alt="Scikit-learn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Scikit-learn</span>
-                </div>
-
-                <!-- TensorFlow -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.tensorflow.org/images/tf_logo_social.png" alt="TensorFlow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">TensorFlow</span>
-                </div>
-
-                <!-- PyTorch -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://pytorch.org/assets/images/pytorch-logo.png" alt="PyTorch" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">PyTorch</span>
-                </div>
-
-                <!-- Keras -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://keras.io/img/logo.png" alt="Keras" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Keras</span>
-                </div>
-
-                <!-- PyOD -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZpLTj7jkd5uIC6t6VM-drswdCi9DxsWoJSg&s" alt="PyOD" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">PyOD</span>
-                </div>
-
-                <!-- Theano -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://raw.githubusercontent.com/Theano/Theano/master/doc/images/theano_logo.png" alt="Theano" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Theano</span>
+              <!-- Mobile Menu -->
+              <div class="md:hidden relative">
+                <button onclick="toggleMenu()" class="text-indigo-700 text-3xl focus:outline-none transition-transform duration-300 hover:rotate-90">
+                  <i class="bi bi-list"></i>
+                </button>
+                <div id="mobileMenu" class="absolute right-0 mt-2 w-56 bg-black rounded-xl shadow-xl hidden z-50 overflow-hidden">
+                  <a href="/" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Home</a>
+                  <a href="#about" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">About</a>
+                  <a href="#services" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Services</a>
+                  <a href="#technologies" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Technologies</a>
+                  <a href="#contact" class="block px-6 py-3 text-white hover:text-indigo-900 transition-colors duration-300 relative group">Get In Touch</a>
                 </div>
               </div>
             </div>
+          </header>
 
-            <!-- Category 2: Computer Vision & Tracking -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Computer Vision & Object Tracking</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- DeepSORT -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://assets-global.website-files.com/645cec5fffb18d770e37da2c/6464b7718d573b4402d4d45b_logo-Ikomia-signature.png" alt="DeepSORT" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">DeepSORT</span>
-                </div>
+          <!-- Hero Section -->
+          <main class="flex-grow relative overflow-hidden py-8">
+            <div class="absolute inset-0 lg:hidden">
+              <img src="static/Images/face.jpg"
+                   alt="Background"
+                   class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/70"></div>
+            </div>
 
-                <!-- ByteTrack -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3XlgE1YsJb0mPYtKu3cP3ct_cZEDOE3k5qA&s" alt="ByteTrack" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">ByteTrack</span>
-                </div>
-
-                <!-- Norfair -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVgYy7embwdB9NdXoiejTFC7sZAUJSXjJDYA&s" alt="Norfair" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Norfair</span>
-                </div>
-
-                <!-- PySceneDetect -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu0Q6QxtgySoVz55U0ftQx5JQBVIj07zgOOw&s" alt="PySceneDetect" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">PySceneDetect</span>
-                </div>
-
-                <!-- Dlib -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVaQrsIovUBHdl_R-9CIN37XK8FaShOE52A&s" alt="Dlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Dlib</span>
-                </div>
-
-                <!-- OpenCV -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.vhv.rs/dpng/d/38-384674_opencv-logo-png-transparent-png.png" alt="OpenCV" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">OpenCV</span>
-                </div>
+            <!-- Desktop Image - With exact positioning -->
+            <div class="hidden lg:block absolute inset-0">
+              <div class="relative w-full h-full">
+                <img src="https://t4.ftcdn.net/jpg/19/03/49/37/360_F_1903493767_KSGJDBZSgodXappsCLenVaRKs48YDE2V.jpg"
+                     alt="AI Technology"
+                     class="absolute"
+                     style="right: 0; top: 50%; transform: translateY(-52%); width: 55%; height: 95%; object-fit: cover; object-position: right; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+                <div class="absolute inset-0 bg-black/70"></div>
               </div>
             </div>
 
-            <!-- Category 3: Multimedia & Processing -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Multimedia & Processing</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- FFmpeg -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://ffmpeg.org/ffmpeg-logo.png" alt="FFmpeg" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">FFmpeg</span>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="max-w-3xl">
+                  <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+                    HELLO.<br />
+                    <span class="text-indigo-500">WE ARE ARTINEX.</span>
+                  </h1>
+                  <p class="text-xl sm:text-2xl md:text-3xl text-white/90 font-light mb-4 sm:mb-6">
+                    We Predict What's Next To Transform Your Business.
+                  </p>
+                  <p class="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed text-justify">
+                    ARTINEX delivers advanced artificial intelligence solutions for enterprises, cybersecurity, and high-impact industries worldwide.
+                    Our AI products are part of the solutions for the future.
+                  </p>
+                  <a href="#contact" class="btn-animated px-5 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center inline-block text-sm sm:text-base">
+                    Get Started Today
+                  </a>
                 </div>
+    <!--            <div class="hidden lg:block">-->
+    <!--              <img src="static/Images/face.jpg"-->
+    <!--                   alt="AI Technology"-->
+    <!--                   class="rounded-2xl shadow-2xl w-[500px] h-[400px] object-cover animate-float">-->
+    <!--            </div>-->
               </div>
             </div>
+          </main>
 
-            <!-- Category 4: NLP & LLMs -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">NLP & Large Language Models</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- NLTK -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://miro.medium.com/v2/resize:fit:1400/1*-dNH8WI8Oy3etClaRvRCgw.png" alt="NLTK" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">NLTK</span>
+          <!-- About Us Section -->
+          <section id="about" class="py-16 px-6 bg-[#0a0a0a]">
+            <div class="max-w-6xl mx-auto">
+              <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                  <img src="static/Images/1616944778816.gif"
+                       alt="Career success"
+                       class="rounded-2xl shadow-xl w-full h-auto object-cover animate-float">
                 </div>
-
-                <!-- SpaCy -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXSQY3mAF3wblmN0G5jKuBLPZvvGHvEnh3eA&s" alt="SpaCy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">SpaCy</span>
-                </div>
-
-                <!-- HuggingFace -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">HuggingFace</span>
-                </div>
-
-                <!-- Ollama -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://ollama.ai/public/ollama.png" alt="Ollama" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Ollama</span>
-                </div>
-
-                <!-- LangChain -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNZHMRCzr955bLOgx-aqiruFxRU9ARxEDXWA&s" alt="LangChain" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">LangChain</span>
-                </div>
-
-                <!-- LangGraph -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://miro.medium.com/v2/resize:fit:1400/1*YrD3Oh6Qv3ymSL2ht_vNJQ.png" alt="LangGraph" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">LangGraph</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Category 5: Data Science & Visualization -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Data Science & Visualization</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- NumPy -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://numpy.org/images/logo.svg" alt="NumPy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">NumPy</span>
-                </div>
-
-                <!-- Pandas -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://pandas.pydata.org/static/img/pandas.svg" alt="Pandas" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Pandas</span>
-                </div>
-
-                <!-- Matplotlib -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdAj5bv_x9z-7KwKmttLD9p65YK7qK7WZtrQ&s" alt="Matplotlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Matplotlib</span>
-                </div>
-
-                <!-- Seaborn -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Seaborn</span>
-                </div>
-
-                <!-- Kaggle -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.kaggle.com/static/images/site-logo.png" alt="Kaggle" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Kaggle</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Category 6: Vector Databases -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Vector Databases</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- ChromaDB -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwZn0hANQux3THYUuytdQA0b5YymZDdy3xIg&s" alt="ChromaDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">ChromaDB</span>
-                </div>
-
-                <!-- MilvusDB -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://miro.medium.com/v2/resize:fit:1400/0*b7IadM2wiZtc6lq1.png" alt="MilvusDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">MilvusDB</span>
-                </div>
-
-                <!-- Pinecone -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://miro.medium.com/1*SKytctg3-E5DtKtFkqCQIg.png" alt="Pinecone" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Pinecone</span>
-                </div>
-
-                <!-- QL -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://python-client.qdrant.tech/_static/images/logo.svg" alt="QL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">QL/Qdrant</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Category 7: Databases & ORMs -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Databases & ORMs</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- MySQL -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">MySQL</span>
-                </div>
-
-                <!-- PostgreSQL -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">PostgreSQL</span>
-                </div>
-
-                <!-- SQLAlchemy -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://www.sqlalchemy.org/img/sqla_logo.png" alt="SQLAlchemy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">SQLAlchemy</span>
-                </div>
-
-                <!-- MongoDB -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://res.cloudinary.com/hevo/images/c_scale,w_370,h_228,dpr_2.625/f_webp,q_auto:best/v1685947238/hevo-learn-1/python-mongodb-insertion-mongdb-logo/python-mongodb-insertion-mongdb-logo.png?_i=AA" alt="MongoDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">MongoDB</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Category 8: Web Frameworks & Cloud -->
-            <div>
-              <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Web Frameworks & Cloud</h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <!-- Flask -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf4YjDWUBx4T4rRHkaG7uqPZR-ZjuMEnFlZw&s" alt="Flask" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">Flask</span>
-                </div>
-
-                <!-- FastAPI -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="FastAPI" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">FastAPI</span>
-                </div>
-
-                <!-- AWS -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">AWS</span>
-                </div>
-
-                <!-- MLflow -->
-                <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
-                  <img src="https://miro.medium.com/v2/resize:fit:1000/1*Iiy93TznZOIrrNY14_j63w.jpeg" alt="MLflow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
-                  <span class="text-white font-medium text-sm">MLflow</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-       <!-- Testimonials -->
-      <section class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
-        <div class="max-w-6xl mx-auto">
-          <div class="text-center mb-16">
-            <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Client Feedback</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Success <span class="text-indigo-500">Stories</span></h2>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-              Hear from people who transformed their careers with our platform
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Testimonial 1 -->
-            <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
-              <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
-                <i class="bi bi-quote text-white text-xl"></i>
-              </div>
-              <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "The machine learning model developed for our network security system has been exceptional.
-                It detects and blocks malicious domains in real-time with <span class="text-indigo-400 font-semibold">94.98% accuracy</span> across 43 malware families.
-                The GRU-based architecture with NLP feature extraction integrated seamlessly with FastAPI,
-                automatically rejecting threats while maintaining smooth traffic flow. This has significantly enhanced our security infrastructure."
-              </p>
-              <div class="flex items-center">
-                <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://avatars.githubusercontent.com/u/43557304?s=200&v=4" alt="Ebryx.Pvt" class="w-full h-full object-cover">
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Ehrar Naqvi</h4>
-                  <p class="text-sm text-gray-400">CEO, Ebryx.Pvt.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Testimonial 2 -->
-            <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
-              <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
-                <i class="bi bi-quote text-white text-xl"></i>
-              </div>
-              <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "The AI-driven File Management System pipeline developed for our Happhi Web Application transformed how we handle data.
-                It intelligently extracts and processes information from documents, images, audio, and video with remarkable precision.
-                Using <span class="text-indigo-400 font-semibold">GPT-4o for image analysis</span>, Whisper-1 for transcription, and RAG with MilvusDB for semantic search,
-                our team can now retrieve any content instantly. This system is the backbone of our intelligent data infrastructure."
-              </p>
-              <div class="flex items-center">
-                <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://i.ytimg.com/vi/ZUi4w2N8Ntg/maxresdefault.jpg" alt="HapPhi" class="w-full h-full object-cover">
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Erik Bean</h4>
-                  <p class="text-sm text-gray-400">Co-Founder, HapPhi.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Testimonial 3 -->
-            <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
-              <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
-                <i class="bi bi-quote text-white text-xl"></i>
-              </div>
-              <p class="text-gray-300 mb-4 italic leading-relaxed">
-                "The automated scene segmentation pipeline developed for my video analytics project exceeded expectations.
-                It flawlessly combines <span class="text-indigo-400 font-semibold">YOLO for object detection</span>, PySceneDetect for boundary detection, and DeepSORT for tracking across frames.
-                The system intelligently extracts object-specific scenes (like cars) using OpenCV and FFmpeg with GPU acceleration.
-                This real-time video analytics capability would have taken months to build on my own."
-              </p>
-              <div class="flex items-center">
-                <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
-                  <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Elena K." class="w-full h-full object-cover">
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Elena K.</h4>
-                  <p class="text-sm text-gray-400">Software Engineer.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Optional: Add rating or stats -->
-          <div class="flex justify-center mt-12 gap-8">
-            <div class="text-center">
-              <div class="text-3xl font-bold text-indigo-500">5+</div>
-              <div class="text-sm text-gray-400">Success Stories</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-indigo-500">4.9/5</div>
-              <div class="text-sm text-gray-400">Client Rating</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact" class="py-20 bg-gradient-to-b from-black to-gray-900 px-6">
-        <div class="max-w-6xl mx-auto">
-          <!-- Section Header -->
-          <div class="text-center mb-16">
-            <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Get In Touch</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Contact <span class="text-indigo-500">Us</span></h2>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-              Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <!-- Contact Form -->
-            <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
-              <form id="contactForm" class="space-y-6" method="POST" action="/contact">
-                <!-- Full Name -->
-                <div>
-                  <label for="fullname" class="block text-white font-medium mb-2">Full Name <span class="text-indigo-500">*</span></label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i class="bi bi-person-fill text-gray-500"></i>
-                    </div>
-                    <input type="text"
-                           id="fullname"
-                           name="fullname"
-                           placeholder="John Doe"
-                           class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                           required>
+                <div class="lg:w-1/2">
+                  <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">About Us</h2>
+                  <p class="text-lg text-white mb-6 text-justify">
+                    ARTINEX is an AI-driven software development agency under ARNA TECHNOLOGY, focused on delivering end-to-end AI/ML, automation, and deep learning products for businesses across the US, Europe and Pakistan.
+                  </p>
+                  <p class="text-lg text-white mb-8 text-justify">
+                    ARTINEX has been providing top-notch services in Machine Learning and Data Sciences for nearly 2 years. From making to deploying the model, it is our duty to complete it. By collaborating with us, you will quickly realize the value our company brings to your projects. Our expertise and dedication will give you the confidence and peace of mind that your project is in capable hands. We are committed to delivering high-quality results and ensuring client satisfaction through effective communication and innovative solutions.
+                  </p>
+                  <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contact" class="btn-animated px-6 py-3 bg-gradient-to-r from-indigo-400 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg text-center">
+                      Get Started Today
+                    </a>
+                    <a href="#services" class="btn-animated px-6 py-3 border border-indigo-600 text-indigo-600 font-medium rounded-lg hover:bg-indigo-50 text-center">
+                      Explore Services
+                    </a>
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
 
-                <!-- Email -->
-                <div>
-                  <label for="email" class="block text-white font-medium mb-2">Email Address <span class="text-indigo-500">*</span></label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i class="bi bi-envelope-fill text-gray-500"></i>
-                    </div>
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           placeholder="john@example.com"
-                           class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                           required>
-                  </div>
-                </div>
-
-                <!-- Phone Number -->
-                <div>
-                  <label for="phone" class="block text-white font-medium mb-2">Phone Number</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i class="bi bi-telephone-fill text-gray-500"></i>
-                    </div>
-                    <input type="tel"
-                           id="phone"
-                           name="phone"
-                           placeholder="+1 (234) 567-890"
-                           class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors">
-                  </div>
-                </div>
-
-                <!-- Message -->
-                <div>
-                  <label for="message" class="block text-white font-medium mb-2">Message <span class="text-indigo-500">*</span></label>
-                  <div class="relative">
-                    <div class="absolute top-3 left-3 pointer-events-none">
-                      <i class="bi bi-chat-dots-fill text-gray-500"></i>
-                    </div>
-                    <textarea id="message"
-                              name="message"
-                              rows="5"
-                              placeholder="Tell us about your project..."
-                              class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
-                              required></textarea>
-                  </div>
-                </div>
-
-                <!-- Submit Button -->
-                <div>
-                  <button type="submit"
-                          class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
-                    <span>Send Message</span>
-                    <i class="bi bi-send-fill"></i>
-                  </button>
-                </div>
-
-                <!-- Form Note -->
-                <p class="text-sm text-gray-500 text-center">
-                  Fields marked with <span class="text-indigo-500">*</span> are required
+          <!-- Services Section -->
+          <section id="services" class="py-20 bg-[#0a0a0a]">
+            <div class="max-w-7xl mx-auto">
+              <!-- Section Header -->
+              <div class="text-center mb-16">
+                <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">What We Offer</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Our <span class="text-indigo-500">Services</span></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Cutting-edge AI solutions tailored to transform your business and drive innovation
                 </p>
-              </form>
+              </div>
+
+              <!-- Services Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1: Computer Vision -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-camera-reels text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Computer Vision</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Advanced image recognition and processing solutions for object detection, facial recognition, and visual quality control systems.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">OpenCV</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">YOLO</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">MediaPipe</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Detectron2</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 2: Model Training -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-cpu text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Model Training</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Custom ML model development and training pipelines optimized for your specific use cases and business requirements.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">TensorFlow</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">PyTorch</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Scikit-learn</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">XGBoost</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 3: Transfer Learning & Pre-trained Models -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-boxes text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Transfer Learning & Pre-trained Models</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Fine-tune state-of-the-art pre-trained models including YOLO, SAM, ResNet, BERT, GPT and more.
+                    Accelerate development with transfer learning for custom computer vision and NLP tasks.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">YOLOv8</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">SAM</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">DINOv2</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">BERT</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 4: Anomaly Detection -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-exclamation-triangle text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Anomaly Detection</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Real-time monitoring and detection of unusual patterns in data streams, transactions, and system behaviors.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">PyOD</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">DeepOD</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Isolation Forest</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Autoencoders</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 5: Time Series Forecasting -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-graph-up-arrow text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Time Series Forecasting</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Predictive analytics for demand forecasting, financial trends, and operational planning with high accuracy.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Prophet</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">ARIMA</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LSTM</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Transformer</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 6: RAG Chatbot -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-chat-dots text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">RAG Chatbot</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Retrieval-Augmented Generation chatbots with enterprise knowledge integration for accurate, context-aware responses.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LangChain</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LlamaIndex</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">ChromaDB</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">OpenAI</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 7: Chatbot Fine-tuning -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-sliders2 text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Chatbot Fine-tuning</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Custom LLM fine-tuning services to align AI responses with your brand voice and specific industry requirements.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">HuggingFace</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LoRA</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">QLoRA</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Ollama</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 8: AI Integration (Web & Mobile Apps) -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-phone-fill text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">AI Integration: Web & Mobile Apps</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Seamlessly integrate AI models into production-ready web applications and mobile apps.
+                    From REST APIs to on-device ML, we deploy your solutions across all platforms.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Flask/FastAPI</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">React Native</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">iOS/Android</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Next.JS/React.JS</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+
+                <!-- Service 9: Agentic AI / AI Agents -->
+                <div class="feature-card p-8 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/10 group">
+                  <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-all duration-300">
+                    <i class="bi bi-robot text-indigo-500 text-3xl group-hover:text-white transition-all duration-300"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">Agentic AI / AI Agents</h3>
+                  <p class="text-gray-400 leading-relaxed">
+                    Autonomous AI agents capable of complex decision-making, task execution, and workflow automation without human intervention.
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">AutoGen</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">LangGraph</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">CrewAI</span>
+                    <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-full">Semantic Kernel</span>
+                  </div>
+                  <div class="mt-4 flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium">Learn more</span>
+                    <i class="bi bi-arrow-right ml-2"></i>
+                  </div>
+                </div>
+              </div>
+          <!--    &lt;!&ndash; Optional: Add CTA at bottom &ndash;&gt;-->
+          <!--    <div class="text-center mt-16">-->
+          <!--      <a href="/contact" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105">-->
+          <!--        Explore All Services-->
+          <!--        <i class="bi bi-arrow-right ml-2"></i>-->
+          <!--      </a>-->
+          <!--    </div>-->
             </div>
-                        <!-- Contact Information -->
-            <div class="space-y-8">
-              <div class="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-white mb-6">Let's Talk</h3>
+          </section>
 
-                <!-- Info Items -->
-                <div class="space-y-6">
-                  <!-- Email -->
-                  <div class="flex items-start space-x-4">
-                    <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <i class="bi bi-envelope-fill text-indigo-500 text-xl"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-white font-semibold mb-1">Email</h4>
-                      <a href="mailto:contact@artinex.ai" class="text-gray-400 hover:text-indigo-400 transition-colors">contact@artinex.ai</a>
-                    </div>
-                  </div>
+          <!-- Technologies Section -->
+          <section id="technologies" class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
+            <div class="max-w-7xl mx-auto">
+              <!-- Section Header -->
+              <div class="text-center mb-16">
+                <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Our Tech Stack</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Technologies <span class="text-indigo-500">We Use</span></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Powered by cutting-edge tools and frameworks to deliver enterprise-grade AI solutions
+                </p>
+              </div>
 
-                  <!-- Phone -->
-                  <div class="flex items-start space-x-4">
-                    <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <i class="bi bi-telephone-fill text-indigo-500 text-xl"></i>
+              <!-- Categories -->
+              <div class="space-y-12">
+                <!-- Category 1: Machine Learning Frameworks -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Machine Learning & Deep Learning</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- Scikit-learn -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://scikit-learn.org/stable/_static/scikit-learn-logo-small.png" alt="Scikit-learn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Scikit-learn</span>
                     </div>
-                    <div>
-                      <h4 class="text-white font-semibold mb-1">Phone</h4>
-                      <a href="tel:+1234567890" class="text-gray-400 hover:text-indigo-400 transition-colors">+92 3137318089</a>
-                    </div>
-                  </div>
 
-                  <!-- Office -->
-                  <div class="flex items-start space-x-4">
-                    <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <i class="bi bi-geo-alt-fill text-indigo-500 text-xl"></i>
+                    <!-- TensorFlow -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.tensorflow.org/images/tf_logo_social.png" alt="TensorFlow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">TensorFlow</span>
                     </div>
-                    <div>
-                      <h4 class="text-white font-semibold mb-1">Office</h4>
-                      <p class="text-gray-400">54 Street, Downtown Lake City<br>LC 54000, Pakistan.</p>
+
+                    <!-- PyTorch -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://pytorch.org/assets/images/pytorch-logo.png" alt="PyTorch" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">PyTorch</span>
+                    </div>
+
+                    <!-- Keras -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://keras.io/img/logo.png" alt="Keras" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Keras</span>
+                    </div>
+
+                    <!-- PyOD -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZpLTj7jkd5uIC6t6VM-drswdCi9DxsWoJSg&s" alt="PyOD" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">PyOD</span>
+                    </div>
+
+                    <!-- Theano -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://raw.githubusercontent.com/Theano/Theano/master/doc/images/theano_logo.png" alt="Theano" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Theano</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Social Links -->
-                <div class="mt-8 pt-8 border-t border-gray-700">
-                  <h4 class="text-white font-semibold mb-4">Follow Us</h4>
-                  <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                      <i class="bi bi-linkedin text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                      <i class="bi bi-twitter text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                      <i class="bi bi-facebook text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                      <i class="bi bi-whatsapp text-white"></i>
-                    </a>
+                <!-- Category 2: Computer Vision & Tracking -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Computer Vision & Object Tracking</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- DeepSORT -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://assets-global.website-files.com/645cec5fffb18d770e37da2c/6464b7718d573b4402d4d45b_logo-Ikomia-signature.png" alt="DeepSORT" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">DeepSORT</span>
+                    </div>
+
+                    <!-- ByteTrack -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3XlgE1YsJb0mPYtKu3cP3ct_cZEDOE3k5qA&s" alt="ByteTrack" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">ByteTrack</span>
+                    </div>
+
+                    <!-- Norfair -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVgYy7embwdB9NdXoiejTFC7sZAUJSXjJDYA&s" alt="Norfair" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Norfair</span>
+                    </div>
+
+                    <!-- PySceneDetect -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu0Q6QxtgySoVz55U0ftQx5JQBVIj07zgOOw&s" alt="PySceneDetect" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">PySceneDetect</span>
+                    </div>
+
+                    <!-- Dlib -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVaQrsIovUBHdl_R-9CIN37XK8FaShOE52A&s" alt="Dlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Dlib</span>
+                    </div>
+
+                    <!-- OpenCV -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.vhv.rs/dpng/d/38-384674_opencv-logo-png-transparent-png.png" alt="OpenCV" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">OpenCV</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 3: Multimedia & Processing -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Multimedia & Processing</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- FFmpeg -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://ffmpeg.org/ffmpeg-logo.png" alt="FFmpeg" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">FFmpeg</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 4: NLP & LLMs -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">NLP & Large Language Models</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- NLTK -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://miro.medium.com/v2/resize:fit:1400/1*-dNH8WI8Oy3etClaRvRCgw.png" alt="NLTK" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">NLTK</span>
+                    </div>
+
+                    <!-- SpaCy -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXSQY3mAF3wblmN0G5jKuBLPZvvGHvEnh3eA&s" alt="SpaCy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">SpaCy</span>
+                    </div>
+
+                    <!-- HuggingFace -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">HuggingFace</span>
+                    </div>
+
+                    <!-- Ollama -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://ollama.ai/public/ollama.png" alt="Ollama" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Ollama</span>
+                    </div>
+
+                    <!-- LangChain -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNZHMRCzr955bLOgx-aqiruFxRU9ARxEDXWA&s" alt="LangChain" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">LangChain</span>
+                    </div>
+
+                    <!-- LangGraph -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://miro.medium.com/v2/resize:fit:1400/1*YrD3Oh6Qv3ymSL2ht_vNJQ.png" alt="LangGraph" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">LangGraph</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 5: Data Science & Visualization -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Data Science & Visualization</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- NumPy -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://numpy.org/images/logo.svg" alt="NumPy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">NumPy</span>
+                    </div>
+
+                    <!-- Pandas -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://pandas.pydata.org/static/img/pandas.svg" alt="Pandas" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Pandas</span>
+                    </div>
+
+                    <!-- Matplotlib -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdAj5bv_x9z-7KwKmttLD9p65YK7qK7WZtrQ&s" alt="Matplotlib" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Matplotlib</span>
+                    </div>
+
+                    <!-- Seaborn -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Seaborn</span>
+                    </div>
+
+                    <!-- Kaggle -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.kaggle.com/static/images/site-logo.png" alt="Kaggle" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Kaggle</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 6: Vector Databases -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Vector Databases</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- ChromaDB -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwZn0hANQux3THYUuytdQA0b5YymZDdy3xIg&s" alt="ChromaDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">ChromaDB</span>
+                    </div>
+
+                    <!-- MilvusDB -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://miro.medium.com/v2/resize:fit:1400/0*b7IadM2wiZtc6lq1.png" alt="MilvusDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">MilvusDB</span>
+                    </div>
+
+                    <!-- Pinecone -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://miro.medium.com/1*SKytctg3-E5DtKtFkqCQIg.png" alt="Pinecone" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Pinecone</span>
+                    </div>
+
+                    <!-- QL -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://python-client.qdrant.tech/_static/images/logo.svg" alt="QL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">QL/Qdrant</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 7: Databases & ORMs -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Databases & ORMs</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- MySQL -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">MySQL</span>
+                    </div>
+
+                    <!-- PostgreSQL -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">PostgreSQL</span>
+                    </div>
+
+                    <!-- SQLAlchemy -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://www.sqlalchemy.org/img/sqla_logo.png" alt="SQLAlchemy" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">SQLAlchemy</span>
+                    </div>
+
+                    <!-- MongoDB -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://res.cloudinary.com/hevo/images/c_scale,w_370,h_228,dpr_2.625/f_webp,q_auto:best/v1685947238/hevo-learn-1/python-mongodb-insertion-mongdb-logo/python-mongodb-insertion-mongdb-logo.png?_i=AA" alt="MongoDB" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">MongoDB</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Category 8: Web Frameworks & Cloud -->
+                <div>
+                  <h3 class="text-2xl font-bold text-white mb-6 pb-2 border-b border-gray-800">Web Frameworks & Cloud</h3>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- Flask -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf4YjDWUBx4T4rRHkaG7uqPZR-ZjuMEnFlZw&s" alt="Flask" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">Flask</span>
+                    </div>
+
+                    <!-- FastAPI -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="FastAPI" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">FastAPI</span>
+                    </div>
+
+                    <!-- AWS -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">AWS</span>
+                    </div>
+
+                    <!-- MLflow -->
+                    <div class="tech-card bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 flex flex-col items-center text-center hover:border-indigo-500/50 transition-all duration-300 hover:transform hover:scale-105 group">
+                      <img src="https://miro.medium.com/v2/resize:fit:1000/1*Iiy93TznZOIrrNY14_j63w.jpeg" alt="MLflow" class="h-16 w-auto mb-4 object-contain filter group-hover:brightness-110">
+                      <span class="text-white font-medium text-sm">MLflow</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          <!-- Footer/Copyright Section - Updated with auto-year -->
-          <div class="border-t border-indigo-800/30 pt-8 mt-16 text-center">
-            <p class="text-indigo-300/70 text-sm">
-              &copy; <span id="currentYear"></span> ARTINAX. All rights reserved. |
-              <a href="/privacy" class="hover:text-indigo-400 transition-colors">Privacy Policy</a> |
-              <a href="/terms" class="hover:text-indigo-400 transition-colors">Terms of Service</a>
-            </p>
-            <p class="text-indigo-300/50 text-xs mt-2">
-              Powered by ARNA TECHNOLOGY
-            </p>
-          </div>
-        </div>
-      </section>
+           <!-- Testimonials -->
+          <section class="py-20 bg-gradient-to-b from-gray-900 to-black px-6">
+            <div class="max-w-6xl mx-auto">
+              <div class="text-center mb-16">
+                <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Client Feedback</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Success <span class="text-indigo-500">Stories</span></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Hear from people who transformed their careers with our platform
+                </p>
+              </div>
 
-  <!-- Toggle Script -->
-  <script>
-      document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+                  <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <i class="bi bi-quote text-white text-xl"></i>
+                  </div>
+                  <p class="text-gray-300 mb-4 italic leading-relaxed">
+                    "The machine learning model developed for our network security system has been exceptional.
+                    It detects and blocks malicious domains in real-time with <span class="text-indigo-400 font-semibold">94.98% accuracy</span> across 43 malware families.
+                    The GRU-based architecture with NLP feature extraction integrated seamlessly with FastAPI,
+                    automatically rejecting threats while maintaining smooth traffic flow. This has significantly enhanced our security infrastructure."
+                  </p>
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+                      <img src="https://avatars.githubusercontent.com/u/43557304?s=200&v=4" alt="Ebryx.Pvt" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-white">Ehrar Naqvi</h4>
+                      <p class="text-sm text-gray-400">CEO, Ebryx.Pvt.</p>
+                    </div>
+                  </div>
+                </div>
 
-      // Show loading state
-      const submitBtn = this.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<span>Sending...</span> <i class="bi bi-hourglass-split"></i>';
-      submitBtn.disabled = true;
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+                  <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <i class="bi bi-quote text-white text-xl"></i>
+                  </div>
+                  <p class="text-gray-300 mb-4 italic leading-relaxed">
+                    "The AI-driven File Management System pipeline developed for our Happhi Web Application transformed how we handle data.
+                    It intelligently extracts and processes information from documents, images, audio, and video with remarkable precision.
+                    Using <span class="text-indigo-400 font-semibold">GPT-4o for image analysis</span>, Whisper-1 for transcription, and RAG with MilvusDB for semantic search,
+                    our team can now retrieve any content instantly. This system is the backbone of our intelligent data infrastructure."
+                  </p>
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+                      <img src="https://i.ytimg.com/vi/ZUi4w2N8Ntg/maxresdefault.jpg" alt="HapPhi" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-white">Erik Bean</h4>
+                      <p class="text-sm text-gray-400">Co-Founder, HapPhi.</p>
+                    </div>
+                  </div>
+                </div>
 
-      fetch('/contact', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => {
-        // Show success message
-        showNotification('Thank you for your message! We will get back to you soon.', 'success');
-        this.reset();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        showNotification('Something went wrong. Please try again.', 'error');
-      })
-      .finally(() => {
-        // Restore button
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      });
-    });
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-6 relative hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5">
+                  <div class="absolute -top-4 -left-4 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <i class="bi bi-quote text-white text-xl"></i>
+                  </div>
+                  <p class="text-gray-300 mb-4 italic leading-relaxed">
+                    "The automated scene segmentation pipeline developed for my video analytics project exceeded expectations.
+                    It flawlessly combines <span class="text-indigo-400 font-semibold">YOLO for object detection</span>, PySceneDetect for boundary detection, and DeepSORT for tracking across frames.
+                    The system intelligently extracts object-specific scenes (like cars) using OpenCV and FFmpeg with GPU acceleration.
+                    This real-time video analytics capability would have taken months to build on my own."
+                  </p>
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-indigo-900 mr-4 overflow-hidden ring-2 ring-indigo-500/50">
+                      <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Elena K." class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-white">Elena K.</h4>
+                      <p class="text-sm text-gray-400">Software Engineer.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-    function showNotification(message, type) {
-      // Create notification element
-      const notification = document.createElement('div');
-      notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in ${
-        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-      }`;
-      notification.innerHTML = message;
+              <!-- Optional: Add rating or stats -->
+              <div class="flex justify-center mt-12 gap-8">
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-indigo-500">5+</div>
+                  <div class="text-sm text-gray-400">Success Stories</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-indigo-500">4.9/5</div>
+                  <div class="text-sm text-gray-400">Client Rating</div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-      document.body.appendChild(notification);
+          <!-- Contact Section -->
+          <section id="contact" class="py-20 bg-gradient-to-b from-black to-gray-900 px-6">
+            <div class="max-w-6xl mx-auto">
+              <!-- Section Header -->
+              <div class="text-center mb-16">
+                <span class="text-indigo-500 font-semibold text-sm tracking-wider uppercase mb-2 block">Get In Touch</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-display">Contact <span class="text-indigo-500">Us</span></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </p>
+              </div>
 
-      // Remove after 3 seconds
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    }
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <!-- Contact Form -->
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
+                  <form id="contactForm" class="space-y-6" method="POST" action="/contact">
+                    <!-- Full Name -->
+                    <div>
+                      <label for="fullname" class="block text-white font-medium mb-2">Full Name <span class="text-indigo-500">*</span></label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <i class="bi bi-person-fill text-gray-500"></i>
+                        </div>
+                        <input type="text"
+                               id="fullname"
+                               name="fullname"
+                               placeholder="John Doe"
+                               class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                               required>
+                      </div>
+                    </div>
 
-    function toggleMenu() {
-      const menu = document.getElementById("mobileMenu");
-      menu.classList.toggle("hidden");
-    }
+                    <!-- Email -->
+                    <div>
+                      <label for="email" class="block text-white font-medium mb-2">Email Address <span class="text-indigo-500">*</span></label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <i class="bi bi-envelope-fill text-gray-500"></i>
+                        </div>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="john@example.com"
+                               class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                               required>
+                      </div>
+                    </div>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-          }
-        });
-      }, {
-        threshold: 0.1
-      });
+                    <!-- Phone Number -->
+                    <div>
+                      <label for="phone" class="block text-white font-medium mb-2">Phone Number</label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <i class="bi bi-telephone-fill text-gray-500"></i>
+                        </div>
+                        <input type="tel"
+                               id="phone"
+                               name="phone"
+                               placeholder="+1 (234) 567-890"
+                               class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors">
+                      </div>
+                    </div>
 
-      document.querySelectorAll('.feature-card, .about-section, .testimonial').forEach(el => {
-        observer.observe(el);
-      });
-    });
+                    <!-- Message -->
+                    <div>
+                      <label for="message" class="block text-white font-medium mb-2">Message <span class="text-indigo-500">*</span></label>
+                      <div class="relative">
+                        <div class="absolute top-3 left-3 pointer-events-none">
+                          <i class="bi bi-chat-dots-fill text-gray-500"></i>
+                        </div>
+                        <textarea id="message"
+                                  name="message"
+                                  rows="5"
+                                  placeholder="Tell us about your project..."
+                                  class="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
+                                  required></textarea>
+                      </div>
+                    </div>
 
-     // Auto-update copyright year
-      document.getElementById('currentYear').textContent = new Date().getFullYear();
+                    <!-- Submit Button -->
+                    <div>
+                      <button type="submit"
+                              class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                        <span>Send Message</span>
+                        <i class="bi bi-send-fill"></i>
+                      </button>
+                    </div>
 
-      let greeted = false;
+                    <!-- Form Note -->
+                    <p class="text-sm text-gray-500 text-center">
+                      Fields marked with <span class="text-indigo-500">*</span> are required
+                    </p>
+                  </form>
+                </div>
+                            <!-- Contact Information -->
+                <div class="space-y-8">
+                  <div class="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6">Let's Talk</h3>
 
-      const hasVisited = localStorage.getItem('hasVisitedBefore');
+                    <!-- Info Items -->
+                    <div class="space-y-6">
+                      <!-- Email -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <i class="bi bi-envelope-fill text-indigo-500 text-xl"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-white font-semibold mb-1">Email</h4>
+                          <a href="mailto:contact@artinex.ai" class="text-gray-400 hover:text-indigo-400 transition-colors">contact@artinex.ai</a>
+                        </div>
+                      </div>
 
-      // Only play on first visit (remove this condition if you want it every time)
-      if (!hasVisited) {
-          setTimeout(() => {
-              speakWelcome();
-          }, 1000);
+                      <!-- Phone -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <i class="bi bi-telephone-fill text-indigo-500 text-xl"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-white font-semibold mb-1">Phone</h4>
+                          <a href="tel:+1234567890" class="text-gray-400 hover:text-indigo-400 transition-colors">+92 3137318089</a>
+                        </div>
+                      </div>
 
-          localStorage.setItem('hasVisitedBefore', 'true');
-      };
+                      <!-- Office -->
+                      <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-indigo-600/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <i class="bi bi-geo-alt-fill text-indigo-500 text-xl"></i>
+                        </div>
+                        <div>
+                          <h4 class="text-white font-semibold mb-1">Office</h4>
+                          <p class="text-gray-400">54 Street, Downtown Lake City<br>LC 54000, Pakistan.</p>
+                        </div>
+                      </div>
+                    </div>
 
-      function playWelcome() {
-        if (greeted) return;
-        greeted = true;
+                    <!-- Social Links -->
+                    <div class="mt-8 pt-8 border-t border-gray-700">
+                      <h4 class="text-white font-semibold mb-4">Follow Us</h4>
+                      <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                          <i class="bi bi-linkedin text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                          <i class="bi bi-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                          <i class="bi bi-facebook text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                          <i class="bi bi-whatsapp text-white"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        const speak = () => {
-          const utterance = new SpeechSynthesisUtterance(
-            "Hello, I'm ANNA. Welcome to ARTINEX, powered by ARNA Technology — a platform where we predict what's next to transform your business."
-          );
-
-          const voices = speechSynthesis.getVoices();
-          const voice = voices.find(v => v.lang.startsWith("en"));
-          if (voice) utterance.voice = voice;
-
-          utterance.rate = 1;
-          utterance.pitch = 1;
-          utterance.volume = 1;
-
-          speechSynthesis.cancel(); // clear stuck queue
-          speechSynthesis.speak(utterance);
-        };
-
-        if (speechSynthesis.getVoices().length === 0) {
-          speechSynthesis.onvoiceschanged = speak;
-        } else {
-          speak();
-        }
-      }
-      console.log("Triggered!")
-      document.addEventListener("pointerdown", playWelcome, { once: true });
-  </script>
-
-</body>
+              <!-- Footer/Copyright Section - Updated with auto-year -->
+              <div class="border-t border-indigo-800/30 pt-8 mt-16 text-center">
+                <p class="text-indigo-300/70 text-sm">
+                  &copy; <span id="currentYear"></span> ARTINAX. All rights reserved. |
+                  <a href="/privacy" class="hover:text-indigo-400 transition-colors">Privacy Policy</a> |
+                  <a href="/terms" class="hover:text-indigo-400 transition-colors">Terms of Service</a>
+                </p>
+                <p class="text-indigo-300/50 text-xs mt-2">
+                  Powered by ARNA TECHNOLOGY
+                </p>
+              </div>
+            </div>
+          </section>
+    </body>
 </html>

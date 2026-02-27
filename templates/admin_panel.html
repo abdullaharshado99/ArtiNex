@@ -1,445 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
-  <title>Admin - Contact Submissions | ARTINEX</title>
+    <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="static/css/admin_panel.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
+<!--      <script src="{{ url_for('static', filename='js/admin_panel.js') }}"></script>-->
+      <title>Admin - Contact Submissions | ARTINEX</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <!-- Fonts & Icons -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+      <!-- Tailwind CSS -->
+      <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-[#0a0a0a] text-gray-200">
 
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0a0a;
-    }
-    .font-display {
-      font-family: 'Poppins', sans-serif;
-    }
+      <!-- Admin Navigation -->
+      <nav class="bg-black/90 border-b border-indigo-900/30 sticky top-0 z-50 backdrop-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+              <a href="/"><img src="/static/images/favanim.gif" alt="ARTINEX" class="w-50 h-9"></a>
+            <!-- Admin Actions -->
+            <div class="flex items-center space-x-4">
+              <button onclick="exportToCSV()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
+                <i class="bi bi-download mr-2"></i>
+                Export CSV
+              </button>
+              <a href="/" class="px-4 py-2 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-sm font-medium rounded-lg transition-colors">
+                <i class="bi bi-house-door mr-2"></i>
+                Back to Site
+              </a>
+              <a href="/admin/logout" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
+                <i class="bi bi-download mr-2"></i>
+                Log Out
+              </a>
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1f1f1f;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #4f46e5;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #6366f1;
-    }
-
-    /* Table styles */
-    .table-container {
-      scrollbar-width: thin;
-      scrollbar-color: #4f46e5 #1f1f1f;
-    }
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out;
-    }
-    #artinex-line {
-      stroke-dasharray: 300;
-      stroke-dashoffset: 300;
-      animation: drawLine 2.2s ease-out forwards;
-    }
-
-    @keyframes drawLine {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-    #artinex-line {
-      filter: drop-shadow(0 0 6px #2D6BFF);
-    }
-  </style>
-</head>
-<body class="bg-[#0a0a0a] text-gray-200">
-
-  <!-- Admin Navigation -->
-  <nav class="bg-black/90 border-b border-indigo-900/30 sticky top-0 z-50 backdrop-blur">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-          <a href="/"><img src="/static/images/favanim.gif" alt="ARTINEX" class="w-50 h-9"></a>
-
-<!--        <div class="flex items-center space-x-1">-->
-<!--          <img src="/static/images/favanim.gif" alt="ARTINEX" class="w-6 h-6">-->
-<!--          <div class="relative inline-block">-->
-<!--            <h1 class="text-white font-big text-2xl font-bold relative z-10">-->
-<!--              ARTI<span class="ml-1 text-indigo-500">NEX</span>-->
-<!--            </h1>-->
-<!--            <svg class="absolute left-0 top-0 w-full h-full pointer-events-none" viewBox="1 2 220 52" preserveAspectRatio="none">-->
-<!--              <path id="artinex-line" d="M -30  45 L 117 45 L 117 8 L 590 8" fill="none" stroke="#2D6BFF" stroke-width="2" stroke-linecap="round"/>-->
-<!--            </svg>-->
-<!--          </div>-->
-<!--        </div>-->
-
-        <!-- Admin Actions -->
-        <div class="flex items-center space-x-4">
-          <button onclick="exportToCSV()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
-            <i class="bi bi-download mr-2"></i>
-            Export CSV
-          </button>
-          <a href="/" class="px-4 py-2 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-sm font-medium rounded-lg transition-colors">
-            <i class="bi bi-house-door mr-2"></i>
-            Back to Site
-          </a>
-          <a href="/admin/logout" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
-            <i class="bi bi-download mr-2"></i>
-            Log Out
-          </a>
-
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-    <!-- Header with Stats -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-white font-display mb-2">Contact Form Submissions</h1>
-      <p class="text-gray-400">Manage and view all messages received from the contact form</p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-400 text-sm mb-1">Total Messages</p>
-            <p class="text-3xl font-bold text-white">{{ contacts|length }}</p>
-          </div>
-          <div class="w-12 h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center">
-            <i class="bi bi-envelope-fill text-indigo-500 text-xl"></i>
+            </div>
           </div>
         </div>
-      </div>
+      </nav>
 
-      <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-400 text-sm mb-1">This Month</p>
-            <p class="text-3xl font-bold text-white">{{ contacts|length }}</p>
+      <!-- Main Content -->
+      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Header with Stats -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-white font-display mb-2">Contact Form Submissions</h1>
+          <p class="text-gray-400">Manage and view all messages received from the contact form</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm mb-1">Total Messages</p>
+                <p class="text-3xl font-bold text-white">{{ contacts|length }}</p>
+              </div>
+              <div class="w-12 h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center">
+                <i class="bi bi-envelope-fill text-indigo-500 text-xl"></i>
+              </div>
+            </div>
           </div>
-          <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
-            <i class="bi bi-calendar-check text-green-500 text-xl"></i>
+
+          <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm mb-1">This Month</p>
+                <p class="text-3xl font-bold text-white">{{ contacts|length }}</p>
+              </div>
+              <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
+                <i class="bi bi-calendar-check text-green-500 text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm mb-1">With Phone</p>
+                <p class="text-3xl font-bold text-white">
+                  {% set phone_count = contacts|selectattr('3', '!=', '')|list|length %}
+                  {{ phone_count }}
+                </p>
+              </div>
+              <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                <i class="bi bi-telephone-fill text-purple-500 text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm mb-1">Avg. Response</p>
+                <p class="text-3xl font-bold text-white">24h</p>
+              </div>
+              <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center">
+                <i class="bi bi-clock-history text-yellow-500 text-xl"></i>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-400 text-sm mb-1">With Phone</p>
-            <p class="text-3xl font-bold text-white">
-              {% set phone_count = contacts|selectattr('3', '!=', '')|list|length %}
-              {{ phone_count }}
-            </p>
-          </div>
-          <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
-            <i class="bi bi-telephone-fill text-purple-500 text-xl"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-400 text-sm mb-1">Avg. Response</p>
-            <p class="text-3xl font-bold text-white">24h</p>
-          </div>
-          <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center">
-            <i class="bi bi-clock-history text-yellow-500 text-xl"></i>
+        <!-- Filters & Search -->
+        <div class="bg-gray-900/30 border border-gray-800 rounded-xl p-4 mb-6">
+          <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1 relative">
+              <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+              <input type="text" id="searchInput" placeholder="Search by name, email, or message..."
+                     class="w-full bg-gray-800/50 border border-gray-700 rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500">
+            </div>
+            <div class="flex gap-2">
+              <select id="filterDate" class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+              </select>
+              <button onclick="refreshData()" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                <i class="bi bi-arrow-repeat"></i>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Filters & Search -->
-    <div class="bg-gray-900/30 border border-gray-800 rounded-xl p-4 mb-6">
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1 relative">
-          <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-          <input type="text" id="searchInput" placeholder="Search by name, email, or message..."
-                 class="w-full bg-gray-800/50 border border-gray-700 rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500">
-        </div>
-        <div class="flex gap-2">
-          <select id="filterDate" class="bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-            <option value="all">All Time</option>
-            <option value="today">Today</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-          </select>
-          <button onclick="refreshData()" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
-            <i class="bi bi-arrow-repeat"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contacts Table -->
-    <div class="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden">
-      <div class="overflow-x-auto table-container">
-        <table class="w-full">
-          <thead class="bg-black/50">
-            <tr>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">ID</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Email</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Phone</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Message</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
-              <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-800">
-            {% for contact in contacts %}
-            <tr class="hover:bg-gray-800/30 transition-colors">
-              <td class="px-6 py-4 text-sm text-gray-300">{{ loop.index }}</td>
-              <td class="px-6 py-4">
-                <div class="font-medium text-white">{{ contact[1] }}</div>
-              </td>
-              <td class="px-6 py-4">
-                <a href="mailto:{{ contact[2] }}" class="text-indigo-400 hover:text-indigo-300 text-sm">
-                  {{ contact[2] }}
-                </a>
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-300">
-                {% if contact[3] %}
-                  <a href="tel:{{ contact[3] }}" class="hover:text-indigo-400">{{ contact[3] }}</a>
+        <!-- Contacts Table -->
+        <div class="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden">
+          <div class="overflow-x-auto table-container">
+            <table class="w-full">
+              <thead class="bg-black/50">
+                <tr>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Email</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Phone</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Message</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                  <th class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800">
+                {% for contact in contacts %}
+                <tr class="hover:bg-gray-800/30 transition-colors">
+                  <td class="px-6 py-4 text-sm text-gray-300">{{ loop.index }}</td>
+                  <td class="px-6 py-4">
+                    <div class="font-medium text-white">{{ contact[1] }}</div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <a href="mailto:{{ contact[2] }}" class="text-indigo-400 hover:text-indigo-300 text-sm">
+                      {{ contact[2] }}
+                    </a>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-300">
+                    {% if contact[3] %}
+                      <a href="tel:{{ contact[3] }}" class="hover:text-indigo-400">{{ contact[3] }}</a>
+                    {% else %}
+                      <span class="text-gray-600">—</span>
+                    {% endif %}
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="text-sm text-gray-300 max-w-xs truncate" title="{{ contact[4] }}">
+                      {{ contact[4][:50] }}{% if contact[4]|length > 50 %}...{% endif %}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-300">{{ contact[5] }}</td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center space-x-2">
+                      <button onclick="viewMessage({{ contact[0] }})" class="p-1 hover:text-indigo-400 transition-colors" title="View">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <button onclick="markAsRead({{ contact[0] }})" class="p-1 hover:text-green-400 transition-colors" title="Mark as Read">
+                        <i class="bi bi-check-circle"></i>
+                      </button>
+                      <button onclick="deleteMessage({{ contact[0] }})" class="p-1 hover:text-red-400 transition-colors" title="Delete">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
                 {% else %}
-                  <span class="text-gray-600">—</span>
-                {% endif %}
-              </td>
-              <td class="px-6 py-4">
-                <div class="text-sm text-gray-300 max-w-xs truncate" title="{{ contact[4] }}">
-                  {{ contact[4][:50] }}{% if contact[4]|length > 50 %}...{% endif %}
-                </div>
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-300">{{ contact[5] }}</td>
-              <td class="px-6 py-4">
-                <div class="flex items-center space-x-2">
-                  <button onclick="viewMessage({{ contact[0] }})" class="p-1 hover:text-indigo-400 transition-colors" title="View">
-                    <i class="bi bi-eye-fill"></i>
-                  </button>
-                  <button onclick="markAsRead({{ contact[0] }})" class="p-1 hover:text-green-400 transition-colors" title="Mark as Read">
-                    <i class="bi bi-check-circle"></i>
-                  </button>
-                  <button onclick="deleteMessage({{ contact[0] }})" class="p-1 hover:text-red-400 transition-colors" title="Delete">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            {% else %}
-            <tr>
-              <td colspan="7" class="px-6 py-12 text-center text-gray-500">
-                <i class="bi bi-inbox text-4xl block mb-2"></i>
-                No messages yet
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+                <tr>
+                  <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                    <i class="bi bi-inbox text-4xl block mb-2"></i>
+                    No messages yet
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
 
-      <!-- Pagination -->
-      <div class="bg-black/30 px-6 py-4 flex items-center justify-between border-t border-gray-800">
-        <div class="text-sm text-gray-400">
-          Showing <span class="font-medium text-white">1</span> to <span class="font-medium text-white">{{ contacts|length }}</span> of <span class="font-medium text-white">{{ contacts|length }}</span> results
-        </div>
-        <div class="flex space-x-2">
-          <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700 disabled:opacity-50" disabled>
-            <i class="bi bi-chevron-left"></i>
-          </button>
-          <button class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">1</button>
-          <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">2</button>
-          <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">3</button>
-          <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">
-            <i class="bi bi-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Message View Modal -->
-  <div id="messageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
-    <div class="bg-gray-900 rounded-2xl max-w-2xl w-full mx-4 border border-gray-800">
-      <div class="flex justify-between items-center p-6 border-b border-gray-800">
-        <h3 class="text-xl font-bold text-white">Message Details</h3>
-        <button onclick="closeModal()" class="text-gray-400 hover:text-white">
-          <i class="bi bi-x-lg text-xl"></i>
-        </button>
-      </div>
-      <div class="p-6 space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <p class="text-sm text-gray-500 mb-1">Name</p>
-            <p id="modalName" class="text-white font-medium"></p>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500 mb-1">Email</p>
-            <p id="modalEmail" class="text-indigo-400"></p>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500 mb-1">Phone</p>
-            <p id="modalPhone" class="text-white"></p>
-          </div>
-          <div>
-            <p class="text-sm text-gray-500 mb-1">Date</p>
-            <p id="modalDate" class="text-white"></p>
+          <!-- Pagination -->
+          <div class="bg-black/30 px-6 py-4 flex items-center justify-between border-t border-gray-800">
+            <div class="text-sm text-gray-400">
+              Showing <span class="font-medium text-white">1</span> to <span class="font-medium text-white">{{ contacts|length }}</span> of <span class="font-medium text-white">{{ contacts|length }}</span> results
+            </div>
+            <div class="flex space-x-2">
+              <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700 disabled:opacity-50" disabled>
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <button class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">1</button>
+              <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">2</button>
+              <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">3</button>
+              <button class="px-3 py-1 bg-gray-800 text-gray-400 rounded-md hover:bg-gray-700">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
           </div>
         </div>
-        <div>
-          <p class="text-sm text-gray-500 mb-2">Message</p>
-          <div id="modalMessage" class="bg-gray-800/50 rounded-lg p-4 text-gray-300 leading-relaxed"></div>
+      </main>
+
+      <!-- Message View Modal -->
+      <div id="messageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+        <div class="bg-gray-900 rounded-2xl max-w-2xl w-full mx-4 border border-gray-800">
+          <div class="flex justify-between items-center p-6 border-b border-gray-800">
+            <h3 class="text-xl font-bold text-white">Message Details</h3>
+            <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+              <i class="bi bi-x-lg text-xl"></i>
+            </button>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Name</p>
+                <p id="modalName" class="text-white font-medium"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Email</p>
+                <p id="modalEmail" class="text-indigo-400"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Phone</p>
+                <p id="modalPhone" class="text-white"></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Date</p>
+                <p id="modalDate" class="text-white"></p>
+              </div>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Message</p>
+              <div id="modalMessage" class="bg-gray-800/50 rounded-lg p-4 text-gray-300 leading-relaxed"></div>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3 p-6 border-t border-gray-800">
+            <button onclick="closeModal()" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700">
+              Close
+            </button>
+            <button onclick="replyToMessage()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+              <i class="bi bi-reply-fill mr-2"></i>
+              Reply
+            </button>
+          </div>
         </div>
       </div>
-      <div class="flex justify-end gap-3 p-6 border-t border-gray-800">
-        <button onclick="closeModal()" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700">
-          Close
-        </button>
-        <button onclick="replyToMessage()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-          <i class="bi bi-reply-fill mr-2"></i>
-          Reply
-        </button>
-      </div>
-    </div>
-  </div>
+      <script>
+        // Sample data (replace with actual data from Flask)
+        const contacts = {{ contacts|tojson }};
 
-  <script>
-    // Sample data (replace with actual data from Flask)
-    const contacts = {{ contacts|tojson }};
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const rows = document.querySelectorAll('tbody tr');
 
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const rows = document.querySelectorAll('tbody tr');
-
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
-      });
-    });
-
-    // Filter by date
-    document.getElementById('filterDate').addEventListener('change', function(e) {
-      const filter = e.target.value;
-      // Implement date filtering logic here
-      console.log('Filtering by:', filter);
-    });
-
-    // View message
-    function viewMessage(id) {
-      const contact = contacts.find(c => c[0] === id);
-      if (contact) {
-        document.getElementById('modalName').textContent = contact[1];
-        document.getElementById('modalEmail').textContent = contact[2];
-        document.getElementById('modalPhone').textContent = contact[3] || 'Not provided';
-        document.getElementById('modalDate').textContent = contact[5];
-        document.getElementById('modalMessage').textContent = contact[4];
-
-        document.getElementById('messageModal').classList.remove('hidden');
-        document.getElementById('messageModal').classList.add('flex');
-      }
-    }
-
-    // Close modal
-    function closeModal() {
-      document.getElementById('messageModal').classList.add('hidden');
-      document.getElementById('messageModal').classList.remove('flex');
-    }
-
-    // Mark as read
-    function markAsRead(id) {
-      // Send AJAX request to mark as read
-      fetch(`/admin/contacts/${id}/read`, { method: 'POST' })
-        .then(response => {
-          if (response.ok) {
-            showNotification('Message marked as read', 'success');
-          }
-        });
-    }
-
-    // Delete message
-    function deleteMessage(id) {
-      if (confirm('Are you sure you want to delete this message?')) {
-        // Send AJAX request to delete
-        fetch(`/admin/contacts/${id}/delete`, { method: 'POST' })
-          .then(response => {
-            if (response.ok) {
-              location.reload();
-            }
+          rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
           });
-      }
-    }
+        });
 
-    // Reply to message
-    function replyToMessage() {
-      const email = document.getElementById('modalEmail').textContent;
-      window.location.href = `mailto:${email}`;
-      closeModal();
-    }
+        // Filter by date
+        document.getElementById('filterDate').addEventListener('change', function(e) {
+          const filter = e.target.value;
+          // Implement date filtering logic here
+          console.log('Filtering by:', filter);
+        });
 
-    // Export to CSV
-    function exportToCSV() {
-      let csv = 'ID,Name,Email,Phone,Message,Date\n';
+        // View message
+        function viewMessage(id) {
+          const contact = contacts.find(c => c[0] === id);
+          if (contact) {
+            document.getElementById('modalName').textContent = contact[1];
+            document.getElementById('modalEmail').textContent = contact[2];
+            document.getElementById('modalPhone').textContent = contact[3] || 'Not provided';
+            document.getElementById('modalDate').textContent = contact[5];
+            document.getElementById('modalMessage').textContent = contact[4];
 
-      contacts.forEach(contact => {
-        csv += `${contact[0]},"${contact[1]}","${contact[2]}","${contact[3]}","${contact[4].replace(/"/g, '""')}","${contact[5]}"\n`;
-      });
+            document.getElementById('messageModal').classList.remove('hidden');
+            document.getElementById('messageModal').classList.add('flex');
+          }
+        }
 
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'contact_submissions.csv';
-      a.click();
-    }
+        // Close modal
+        function closeModal() {
+          document.getElementById('messageModal').classList.add('hidden');
+          document.getElementById('messageModal').classList.remove('flex');
+        }
 
-    // Refresh data
-    function refreshData() {
-      location.reload();
-    }
+        // Mark as read
+        function markAsRead(id) {
+          // Send AJAX request to mark as read
+          fetch(`/admin/contacts/${id}/read`, { method: 'POST' })
+            .then(response => {
+              if (response.ok) {
+                showNotification('Message marked as read', 'success');
+              }
+            });
+        }
 
-    // Notification function
-    function showNotification(message, type) {
-      const notification = document.createElement('div');
-      notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in ${
-        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-      }`;
-      notification.innerHTML = message;
+        // Delete message
+        function deleteMessage(id) {
+          if (confirm('Are you sure you want to delete this message?')) {
+            // Send AJAX request to delete
+            fetch(`/admin/contacts/${id}/delete`, { method: 'POST' })
+              .then(response => {
+                if (response.ok) {
+                  location.reload();
+                }
+              });
+          }
+        }
 
-      document.body.appendChild(notification);
+        // Reply to message
+        function replyToMessage() {
+          const email = document.getElementById('modalEmail').textContent;
+          window.location.href = `mailto:${email}`;
+          closeModal();
+        }
 
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    }
+        // Export to CSV
+        function exportToCSV() {
+          let csv = 'ID,Name,Email,Phone,Message,Date\n';
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      const modal = document.getElementById('messageModal');
-      if (event.target === modal) {
-        closeModal();
-      }
-    }
-  </script>
-</body>
+          contacts.forEach(contact => {
+            csv += `${contact[0]},"${contact[1]}","${contact[2]}","${contact[3]}","${contact[4].replace(/"/g, '""')}","${contact[5]}"\n`;
+          });
+
+          const blob = new Blob([csv], { type: 'text/csv' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'contact_submissions.csv';
+          a.click();
+        }
+
+        // Refresh data
+        function refreshData() {
+          location.reload();
+        }
+
+        // Notification function
+        function showNotification(message, type) {
+          const notification = document.createElement('div');
+          notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in ${
+            type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+          }`;
+          notification.innerHTML = message;
+
+          document.body.appendChild(notification);
+
+          setTimeout(() => {
+            notification.remove();
+          }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+          const modal = document.getElementById('messageModal');
+          if (event.target === modal) {
+            closeModal();
+          }
+        }
+      </script>
+    </body>
 </html>
