@@ -210,7 +210,7 @@
           <tbody class="divide-y divide-gray-800">
             {% for contact in contacts %}
             <tr class="hover:bg-gray-800/30 transition-colors">
-              <td class="px-6 py-4 text-sm text-gray-300">#{{ contact[0] }}</td>
+              <td class="px-6 py-4 text-sm text-gray-300">{{ loop.index }}</td>
               <td class="px-6 py-4">
                 <div class="font-medium text-white">{{ contact[1] }}</div>
               </td>
