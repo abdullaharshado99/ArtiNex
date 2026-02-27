@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0B0F2F;
+  color: #D6D9F5;
+  font-family: 'Inter', sans-serif;
+}
+.tech-card {
+  transition: all 0.3s ease;
+}
+
+.tech-card:hover {
+  box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
+}
+
+.tech-card img {
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.tech-card:hover img {
+  filter: brightness(1.1);
+}
+
+#artinex-line {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawLine 2.2s ease-out forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+      #artinex-line {
+  filter: drop-shadow(0 0 6px #2D6BFF);
+}
