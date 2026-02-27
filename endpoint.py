@@ -1,19 +1,53 @@
+import os
 import sqlite3
 from flask_cors import CORS
-from datetime import datetime
-from flask import Flask, render_template, request, jsonify
+from functools import wraps
+from dotenv import load_dotenv
+from datetime import datetime, timedelta
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 
 app = Flask(__name__)
 app.config['WTF_CSRF_ENABLED'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
+load_dotenv()
 CORS(app)
+
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+app.secret_key = os.environ.get('SECRET_KEY')
+
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login', next=request.url))
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['admin_logged_in'] = True
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('view_contacts'))
+        else:
+            return render_template('admin_login.html', error='Invalid credentials')
+
+    return render_template('admin_login.html')
+
 @app.route('/contact', methods=["POST"])
-def get_contact():
+def view_contact():
     try:
         fullname = request.form['fullname']
         email = request.form['email']
@@ -53,6 +87,7 @@ def save_to_database(name, email, phone, message, timestamp):
 
 
 @app.route('/admin/contacts')
+@admin_required
 def view_contacts():
     conn = sqlite3.connect('contacts.db')
     c = conn.cursor()
@@ -66,6 +101,7 @@ def view_contacts():
 
 
 @app.route('/admin/contacts/<int:mark_id>/read', methods=['POST'])
+@admin_required
 def mark_as_read(mark_id):
     try:
         conn = sqlite3.connect('contacts.db')
@@ -82,6 +118,7 @@ def mark_as_read(mark_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route('/admin/contacts/<int:del_id>/delete', methods=['POST'])
+@admin_required
 def delete_contact(del_id):
     conn = sqlite3.connect('contacts.db')
     c = conn.cursor()
@@ -89,6 +126,11 @@ def delete_contact(del_id):
     conn.commit()
     conn.close()
     return jsonify({"success": True})
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('admin_login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
