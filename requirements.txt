@@ -1,0 +1,4 @@
+# Root requirements for deployment (pip install -r requirements.txt)
+# Core app deps are in libraries/requirements.txt; this file is for hosts that expect it at repo root.
+-r libraries/requirements.txt
+gunicorn>=3.0.0

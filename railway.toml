@@ -1,0 +1,7 @@
+# Force Dockerfile build and start command from repo (overrides dashboard)
+[build]
+builder = "DOCKERFILE"
+
+# Runs inside the Docker image where gunicorn is on PATH (no /opt/venv)
+[deploy]
+startCommand = "/bin/sh -c \"gunicorn endpoint:app --bind 0.0.0.0:$PORT\""
