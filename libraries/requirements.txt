@@ -35,6 +35,8 @@ markupsafe==3.0.3
     #   werkzeug
 python-dotenv==1.2.1
     # via -r libraries/requirements.in
+gunicorn>=3.0.0
+    # via -r libraries/requirements.in
 werkzeug==3.1.6
     # via
     #   flask
