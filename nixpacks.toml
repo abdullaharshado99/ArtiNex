@@ -1,0 +1,3 @@
+# Start command is set by Dockerfile when present.
+# If Railway builds without Dockerfile, set Start Command in dashboard to:
+#   gunicorn endpoint:app --bind 0.0.0.0:$PORT
