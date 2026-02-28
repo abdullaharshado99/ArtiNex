@@ -4,9 +4,9 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>ARTINEX</title>
-      <link rel="stylesheet" href="static/css/home.css">
+<!--      <link rel="stylesheet" href="static/css/home.css">-->
       <link rel="icon" type="image/png" href="{{ url_for('static', filename='Images/favicon.png') }}">
-      <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<!--      <script src="{{ url_for('static', filename='js/home.js') }}"></script>-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
@@ -41,6 +41,51 @@
           }
         }
       </script>
+      <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          body {
+            background: #0B0F2F;
+            color: #D6D9F5;
+            font-family: 'Inter', sans-serif;
+          }
+          .tech-card {
+            transition: all 0.3s ease;
+          }
+
+          .tech-card:hover {
+            box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
+          }
+
+          .tech-card img {
+            filter: brightness(0.9);
+            transition: filter 0.3s ease;
+          }
+
+          .tech-card:hover img {
+            filter: brightness(1.1);
+          }
+
+          #artinex-line {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: drawLine 2.2s ease-out forwards;
+          }
+
+          @keyframes drawLine {
+            to {
+              stroke-dashoffset: 0;
+            }
+          }
+                #artinex-line {
+            filter: drop-shadow(0 0 6px #2D6BFF);
+          }
+      </style>
     </head>
 
     <body class="bg-gradient-to-br from-black-50 to-black-100 min-h-screen flex flex-col justify-between font-sans">
@@ -926,5 +971,121 @@
               </div>
             </div>
           </section>
+        <script>
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span>Sending...</span> <i class="bi bi-hourglass-split"></i>';
+            submitBtn.disabled = true;
+
+            fetch('/contact', {
+            method: 'POST',
+            body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+            // Show success message
+            showNotification('Thank you for your message! We will get back to you soon.', 'success');
+            this.reset();
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            showNotification('Something went wrong. Please try again.', 'error');
+            })
+            .finally(() => {
+            // Restore button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            });
+            });
+
+            function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in ${
+            type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            notification.innerHTML = message;
+
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+            notification.remove();
+            }, 3000);
+            }
+
+            function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("hidden");
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in-up');
+              }
+            });
+            }, {
+            threshold: 0.1
+            });
+
+            document.querySelectorAll('.feature-card, .about-section, .testimonial').forEach(el => {
+            observer.observe(el);
+            });
+            });
+
+            // Auto-update copyright year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+<!--            let greeted = false;-->
+<!--            -->
+<!--            const hasVisited = localStorage.getItem('hasVisitedBefore');-->
+<!--            -->
+<!--            // Only play on first visit (remove this condition if you want it every time)-->
+<!--            if (!hasVisited) {-->
+<!--              setTimeout(() => {-->
+<!--                  speakWelcome();-->
+<!--              }, 1000);-->
+<!--            -->
+<!--              localStorage.setItem('hasVisitedBefore', 'true');-->
+<!--            };-->
+<!--            -->
+<!--            function playWelcome() {-->
+<!--            if (greeted) return;-->
+<!--            greeted = true;-->
+<!--            -->
+<!--            const speak = () => {-->
+<!--              const utterance = new SpeechSynthesisUtterance(-->
+<!--                "Hello, I'm ANNA. Welcome to ARTINEX, powered by ARNA Technology — a platform where we predict what's next to transform your business."-->
+<!--              );-->
+<!--            -->
+<!--              const voices = speechSynthesis.getVoices();-->
+<!--              const voice = voices.find(v => v.lang.startsWith("en"));-->
+<!--              if (voice) utterance.voice = voice;-->
+<!--            -->
+<!--              utterance.rate = 1;-->
+<!--              utterance.pitch = 1;-->
+<!--              utterance.volume = 1;-->
+<!--            -->
+<!--              speechSynthesis.cancel(); // clear stuck queue-->
+<!--              speechSynthesis.speak(utterance);-->
+<!--            };-->
+<!--            -->
+<!--            if (speechSynthesis.getVoices().length === 0) {-->
+<!--              speechSynthesis.onvoiceschanged = speak;-->
+<!--            } else {-->
+<!--              speak();-->
+<!--            }-->
+<!--            }-->
+<!--            console.log("Triggered!")-->
+<!--            document.addEventListener("pointerdown", playWelcome, { once: true });-->
+
+        </script>
     </body>
 </html>
