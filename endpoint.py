@@ -3,6 +3,8 @@ import re
 import sqlite3
 import smtplib
 from pathlib import Path
+import socket
+
 from flask_cors import CORS
 from functools import wraps
 from dotenv import load_dotenv
@@ -139,6 +141,8 @@ def save_to_database(name, email, phone, message, timestamp):
     conn.close()
 
 def send_email_notification(name, email, phone, message, timestamp):
+    socket.setdefaulttimeout(10)
+
     sender_email = Sender_Email
     sender_password = SENDER_KEY
     receiver_email = Receiver_Email
@@ -182,16 +186,21 @@ def send_email_notification(name, email, phone, message, timestamp):
     msg.attach(MIMEText(html_content, 'html'))
 
     try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server = smtplib.SMTP('smtp.gmail.com', 587, timeout=10)
         server.starttls()
         server.login(sender_email, sender_password)
         server.send_message(msg)
         server.quit()
         print("✅ Email sent successfully")
         return True
+    except socket.timeout:
+        print("❌ Connection timeout - SMTP may be blocked")
+        return False
     except Exception as e:
         print(f"❌ Email error: {e}")
         return False
+    finally:
+        socket.setdefaulttimeout(None)
 
 if __name__ == '__main__':
     app.run(debug=True)
