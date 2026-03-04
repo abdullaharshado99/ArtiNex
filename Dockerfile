@@ -9,7 +9,7 @@ COPY libraries/requirements.txt ./libraries/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY endpoint.py .
+COPY endpoint.py pipeline.py .
 COPY templates/ ./templates/
 COPY static/ ./static/
 
