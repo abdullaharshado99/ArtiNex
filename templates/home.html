@@ -74,6 +74,36 @@
           .tech-card:hover img {
             filter: brightness(1.1);
           }
+
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+          }
+
+          #annaChatMessages::-webkit-scrollbar {
+            width: 6px;
+          }
+          #annaChatMessages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+          #annaChatMessages::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 10px;
+          }
+          #annaChatMessages::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+          }
+
+          @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+          }
+          .animate-bounce {
+            animation: bounce 1s infinite;
+          }
       </style>
     </head>
 
@@ -960,6 +990,127 @@
               </div>
             </div>
           </section>
+
+          <!-- ANNA AI Assistant Chatbot -->
+          <div class="fixed bottom-6 right-6 z-50">
+            <!-- Chat Button -->
+            <button id="annaChatButton" class="text-white rounded-full flex items-center justify-center group" style="background-color: #673de6; margin: 4px; padding: 8px 16px 8px 8px">
+              <img rel="icon" alt="ANNA" class="w-65 h-7" style="margin-right: 10px;" src="{{ url_for('static', filename='Images/favicon.png') }}"> Ask ANNA
+            </button>
+
+            <!-- Chat Modal -->
+            <div id="annaChatModal" class="absolute bottom-20 right-0 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden hidden transition-all duration-300 origin-bottom-right scale-0 opacity-0">
+
+              <!-- Chat Header -->
+              <div class="bg-white p-4 flex items-center justify-between border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                  <div>
+                    <h3 class="text-gray-800 font-bold text-lg">ANNA</h3>
+                    <p class="text-green-600 text-xs flex items-center">
+                      <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                      Online
+                    </p>
+                  </div>
+                </div>
+                <button id="closeAnnaChat" class="text-gray-500 hover:text-gray-700 transition-colors">
+                  <i class="bi bi-x-lg text-xl"></i>
+                </button>
+              </div>
+
+              <!-- Chat Messages Area -->
+              <div id="annaChatMessages" class="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                <!-- Welcome Message -->
+                <div class="flex flex-col items-center text-center space-y-3 py-6 px-4">
+                  <!-- Icon -->
+                  <div>
+                    <img rel="icon"
+                         alt="ANNA"
+                         class="w-20 h-auto mx-auto"
+                         src="{{ url_for('static', filename='Images/favicon.png') }}">
+                  </div>
+
+                  <!-- Welcome Text -->
+                  <div class="space-y-1">
+                    <p class="text-gray-800 text-xl font-medium">Hello  👋</p>
+                    <p class="text-gray-600 text-base">How can I help you today?</p>
+                  </div>
+                </div>
+
+                <!-- Quick Options - Based on your services -->
+                <div class="flex flex-col space-y-2 ml-10">
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    I need AI solutions for my business
+                  </button>
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    Computer vision & object detection
+                  </button>
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    RAG chatbot development
+                  </button>
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    Anomaly detection for security
+                  </button>
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    Time series forecasting
+                  </button>
+                  <button class="anna-quick-option text-left bg-white hover:bg-indigo-50 border border-gray-200 rounded-xl p-3 text-gray-700 text-sm transition-colors shadow-sm">
+                    AI agents & automation
+                  </button>
+                </div>
+              </div>
+
+<!--              &lt;!&ndash; Chat Input Area &ndash;&gt;-->
+<!--              <div class="p-4 border-t border-gray-200 bg-white">-->
+<!--                <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all">-->
+<!--                  <input type="text"-->
+<!--                         id="annaChatInput"-->
+<!--                         placeholder="Ask ANNA anything..."-->
+<!--                         class="flex-1 px-4 py-2.5 text-gray-800 text-sm bg-transparent border-0 outline-none focus:ring-0 placeholder-gray-400">-->
+
+<!--                  <button id="annaSendMessage"-->
+<!--                          class="px-3 py-2.5 bg-transparent hover:bg-indigo-50 transition-colors">-->
+<!--                    <i class="bi bi-send-fill text-lg" style="color: #673de6;"></i>-->
+<!--                  </button>-->
+<!--                </div>-->
+
+<!--                <p class="text-xs text-gray-500 mt-2 text-center">-->
+<!--                  ANNA can make mistakes. Double-check replies.-->
+<!--                </p>-->
+<!--              </div>-->
+              <!-- Chat Input Area - Beta Mode -->
+              <div class="p-4 border-t border-gray-200 bg-white">
+
+                <div class="mb-3 bg-yellow-50 border border-yellow-200 rounded-lg p-2 flex items-center justify-center space-x-2">
+                  <i class="bi bi-exclamation-triangle-fill text-yellow-600 text-sm"></i>
+                  <p class="text-xs text-yellow-700 font-medium">
+                    🔧 ANNA is currently in Beta Phase
+                  </p>
+                </div>
+
+                <div class="flex items-center bg-gray-100 border border-gray-300 rounded-lg overflow-hidden opacity-75 cursor-not-allowed">
+                  <input type="text"
+                         id="annaChatInput"
+                         placeholder="Chat temporarily disabled - Beta testing"
+                         value=""
+                         disabled
+                         class="flex-1 px-4 py-2.5 text-gray-500 text-sm bg-transparent border-0 outline-none placeholder-gray-400 cursor-not-allowed">
+                  <button id="annaSendMessage"
+                          disabled
+                          class="px-4 py-2.5 bg-gray-200 text-gray-400 cursor-not-allowed">
+                    <i class="bi bi-send-fill text-lg"></i>
+                  </button>
+                </div>
+                <p class="text-xs text-center mt-2 text-yellow-600 bg-yellow-50 py-1 px-2 rounded-full inline-block mx-auto w-auto">
+                  <i class="bi bi-info-circle-fill text-yellow-600 text-xs mr-1"></i>
+                  We're making ANNA smarter. Full chat coming soon!
+                </p>
+                <p class="text-xs text-gray-500 mt-3 text-center border-t border-gray-100 pt-3">
+                  ANNA can make mistakes. Double-check replies.
+                </p>
+              </div>
+            </div>
+          </div>
+
         <script>
             document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1074,6 +1225,191 @@
 <!--            }-->
 <!--            console.log("Triggered!")-->
 <!--            document.addEventListener("pointerdown", playWelcome, { once: true });-->
+
+            document.addEventListener('DOMContentLoaded', function() {
+            const chatButton = document.getElementById('annaChatButton');
+            const chatModal = document.getElementById('annaChatModal');
+            const closeChat = document.getElementById('closeAnnaChat');
+            const chatInput = document.getElementById('annaChatInput');
+            const sendButton = document.getElementById('annaSendMessage');
+            const chatMessages = document.getElementById('annaChatMessages');
+            const quickOptions = document.querySelectorAll('.anna-quick-option');
+
+            // Toggle chat modal
+            chatButton.addEventListener('click', function() {
+              chatModal.classList.toggle('hidden');
+              chatModal.classList.toggle('scale-0');
+              chatModal.classList.toggle('opacity-0');
+              chatModal.classList.toggle('scale-100');
+              chatModal.classList.toggle('opacity-100');
+
+              if (!chatModal.classList.contains('hidden')) {
+                chatInput.focus();
+              }
+            });
+
+            // Close chat
+            closeChat.addEventListener('click', function() {
+              chatModal.classList.add('hidden', 'scale-0', 'opacity-0');
+              chatModal.classList.remove('scale-100', 'opacity-100');
+            });
+
+            // Send message function
+            function sendUserMessage(message) {
+              if (!message.trim()) return;
+
+              // Disable input while processing
+              chatInput.disabled = true;
+              sendButton.disabled = true;
+
+              // Add user message
+              const userMessageDiv = document.createElement('div');
+              userMessageDiv.className = 'flex items-start justify-end space-x-2 animate-fade-in';
+              userMessageDiv.innerHTML = `
+                <div class="bg-indigo-600 rounded-2xl rounded-tr-none p-3 max-w-[80%] shadow-md">
+                  <p class="text-white text-sm">${message}</p>
+                </div>
+                <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="bi bi-person text-white text-sm"></i>
+                </div>
+              `;
+              chatMessages.appendChild(userMessageDiv);
+
+              // Scroll to bottom
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+
+              // Show typing indicator
+              const typingDiv = document.createElement('div');
+              typingDiv.id = 'typingIndicator';
+              typingDiv.className = 'flex items-start space-x-2 animate-fade-in';
+              typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="bi bi-robot text-indigo-600 text-sm"></i>
+                </div>
+                <div class="bg-white rounded-2xl rounded-tl-none p-4 max-w-[80%] shadow-sm">
+                  <div class="flex space-x-1">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                  </div>
+                </div>
+              `;
+              chatMessages.appendChild(typingDiv);
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+
+              // Send to Flask backend
+              fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  message: message,
+                  session_id: getSessionId()
+                })
+              })
+              .then(response => response.json())
+              .then(data => {
+                // Remove typing indicator
+                document.getElementById('typingIndicator')?.remove();
+
+                // Add bot response
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'flex items-start space-x-2 animate-fade-in';
+                botMessageDiv.innerHTML = `
+                  <div>
+                        <img rel="icon"
+                         alt="ANNA"
+                         class="w-10 h-auto mx-auto"
+                         src="{{ url_for('static', filename='Images/favicon.png') }}">
+                  </div>
+                  <div class="bg-white rounded-2xl rounded-tl-none p-3 max-w-[80%] shadow-sm">
+                    <p class="text-gray-800 text-sm">${data.response}</p>
+                  </div>
+                `;
+                chatMessages.appendChild(botMessageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('typingIndicator')?.remove();
+
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'flex items-start space-x-2 animate-fade-in';
+                errorDiv.innerHTML = `
+                  <div>
+                        <img rel="icon"
+                         alt="ANNA"
+                         class="w-10 h-auto mx-auto"
+                         src="{{ url_for('static', filename='Images/favicon.png') }}">
+                  </div>
+                  <div class="bg-red-50 rounded-2xl rounded-tl-none p-3 max-w-[80%] shadow-sm">
+                    <p class="text-red-600 text-sm">Sorry, I'm having trouble connecting. Please try again.</p>
+                  </div>
+                `;
+                chatMessages.appendChild(errorDiv);
+              })
+              .finally(() => {
+                // Re-enable input
+                chatInput.disabled = false;
+                chatInput.focus();
+                sendButton.disabled = !chatInput.value.trim();
+              });
+            }
+
+            // Generate or retrieve session ID
+            function getSessionId() {
+              let sessionId = localStorage.getItem('anna_session_id');
+              if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('anna_session_id', sessionId);
+              }
+              return sessionId;
+            }
+
+            // Send message on button click
+            sendButton.addEventListener('click', function() {
+              const message = chatInput.value.trim();
+              if (message) {
+                sendUserMessage(message);
+                chatInput.value = '';
+                sendButton.disabled = true;
+              }
+            });
+
+            // Enable/disable send button based on input
+            chatInput.addEventListener('input', function() {
+              sendButton.disabled = !this.value.trim() || this.disabled;
+            });
+
+            // Send on Enter key
+            chatInput.addEventListener('keypress', function(e) {
+              if (e.key === 'Enter' && this.value.trim() && !this.disabled) {
+                e.preventDefault();
+                sendUserMessage(this.value.trim());
+                this.value = '';
+                sendButton.disabled = true;
+              }
+            });
+
+            // Quick options
+            quickOptions.forEach(option => {
+              option.addEventListener('click', function() {
+                if (chatInput.disabled) return;
+                const text = this.textContent.trim().replace(/[🤖👁️💬🔍📊]/g, '').trim();
+                sendUserMessage(text);
+              });
+            });
+
+            // Close chat when clicking outside
+            document.addEventListener('click', function(event) {
+              if (!chatModal.contains(event.target) && !chatButton.contains(event.target) && !chatModal.classList.contains('hidden')) {
+                chatModal.classList.add('hidden', 'scale-0', 'opacity-0');
+                chatModal.classList.remove('scale-100', 'opacity-100');
+              }
+            });
+          });
 
         </script>
     </body>
