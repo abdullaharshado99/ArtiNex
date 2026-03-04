@@ -1,11 +1,10 @@
 import os
-import resend
 import sqlite3
-from pathlib import Path
 from flask_cors import CORS
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from main import generate_chat_response, send_email_notification
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 
 app = Flask(__name__)
@@ -15,8 +14,10 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 load_dotenv()
 CORS(app)
 
+chat_sessions = {}
+
+
 SENDER_KEY = os.environ.get('SENDER_KEY')
-RESEND_KEY = os.environ.get('RESEND_KEY')
 Sender_Email = os.environ.get('SENDER_EMAIL')
 Receiver_Email = os.environ.get('RECEIVE_EMAIL')
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
@@ -35,6 +36,46 @@ def admin_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+@admin_required
+@app.route('/api/chat', methods=['POST'])
+def chat_api():
+    try:
+        data = request.json
+        user_message = data.get('message', '').lower()
+        session_id = data.get('session_id')
+
+        # Initialize session if new
+        if session_id not in chat_sessions:
+            chat_sessions[session_id] = {
+                'history': [],
+                'created_at': datetime.now().isoformat()
+            }
+
+        # Store user message
+        chat_sessions[session_id]['history'].append({
+            'role': 'user',
+            'message': user_message,
+            'timestamp': datetime.now().isoformat()
+        })
+
+        # Generate response based on user message
+        response = generate_chat_response(user_message, session_id)
+
+        # Store bot response
+        chat_sessions[session_id]['history'].append({
+            'role': 'bot',
+            'message': response,
+            'timestamp': datetime.now().isoformat()
+        })
+
+        return jsonify({
+            'response': response,
+            'session_id': session_id
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
@@ -112,79 +153,16 @@ def delete_contact(del_id):
     conn.close()
     return jsonify({"success": True})
 
+@app.route('/api/chat/history/<session_id>', methods=['GET'])
+def get_chat_history(session_id):
+    if session_id in chat_sessions:
+        return jsonify(chat_sessions[session_id])
+    return jsonify({'error': 'Session not found'}), 404
+
 @app.route('/admin/logout')
 def admin_logout():
     session.pop('admin_logged_in', None)
     return redirect(url_for('admin_login'))
-
-def save_to_database(name, email, phone, message, timestamp):
-    conn = sqlite3.connect('contacts.db')
-    c = conn.cursor()
-
-    c.execute('''CREATE TABLE IF NOT EXISTS contacts
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  name TEXT,
-                  email TEXT,
-                  phone TEXT,
-                  message TEXT,
-                  timestamp TEXT,
-                  status TEXT DEFAULT 'unread')''')
-
-    c.execute("INSERT INTO contacts (name, email, phone, message, timestamp) VALUES (?, ?, ?, ?, ?)",
-              (name, email, phone, message, timestamp))
-
-    conn.commit()
-    conn.close()
-
-def send_email_notification(name, email, phone, message, current_date):
-    resend.api_key = RESEND_KEY
-    template_path = Path(__file__).parent / 'templates' / 'contact_notification.html'
-
-    try:
-        with open(template_path, 'r', encoding='utf-8') as f:
-            html_template = f.read()
-
-        html_content = html_template
-        html_content = html_content.replace('__NAME__', name)
-        html_content = html_content.replace('__EMAIL__', email)
-        html_content = html_content.replace('__DATE__', current_date)
-        html_content = html_content.replace('__MESSAGE__', message.replace('\n', '<br>'))
-
-        if phone and phone.strip():
-            html_content = html_content.replace('__PHONE__', phone)
-            html_content = html_content.replace('<!--PHONE_SECTION_START-->', '')
-            html_content = html_content.replace('<!--PHONE_SECTION_END-->', '')
-        else:
-            import re
-            pattern = r'<!--PHONE_SECTION_START-->.*?<!--PHONE_SECTION_END-->'
-            html_content = re.sub(pattern, '', html_content, flags=re.DOTALL)
-
-    except Exception as e:
-        print(f"Template error: {e}, using fallback")
-        html_content = f"""
-        <h1>New Contact from {name}</h1>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Phone:</strong> {phone if phone else 'Not provided'}</p>
-        <p><strong>Message:</strong></p>
-        <p>{message.replace(chr(10), '<br>')}</p>
-        <p><small>Received: {current_date}</small></p>
-        """
-    try:
-        params = {
-            "from": "ARTINEX <onboarding@resend.dev>",
-            "to": ["abdullaharshado99@gmail.com"],
-            "subject": f"📬 New Contact Form Submission from {name}",
-            "html": html_content,
-            "reply_to": email
-        }
-
-        response = resend.Emails.send(params)
-        print(f"✅ Email sent successfully. ID: {response['id']}")
-        return True
-
-    except Exception as e:
-        print(f"❌ Email error: {e}")
-        return False
 
 if __name__ == '__main__':
     app.run(debug=True)
