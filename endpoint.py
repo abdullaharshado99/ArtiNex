@@ -4,8 +4,10 @@ from flask_cors import CORS
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from pipeline import generate_chat_response, send_email_notification
+from pipeline import send_email_notification
+from Anna_pipeline.query_engine import QueryEngine
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+
 
 app = Flask(__name__)
 app.config['WTF_CSRF_ENABLED'] = True
@@ -13,6 +15,8 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 load_dotenv()
 CORS(app)
+
+query_engine = QueryEngine()
 
 chat_sessions = {}
 
@@ -40,12 +44,15 @@ def admin_required(f):
 @admin_required
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
+    """RAG endpoint that returns context for LLM"""
     try:
         data = request.json
-        user_message = data.get('message', '').lower()
+        query = data.get('message', '').lower()
         session_id = data.get('session_id')
 
-        # Initialize session if new
+        if not query:
+            return jsonify({'error': 'No query provided'}), 400
+
         if session_id not in chat_sessions:
             chat_sessions[session_id] = {
                 'history': [],
@@ -55,22 +62,20 @@ def chat_api():
         # Store user message
         chat_sessions[session_id]['history'].append({
             'role': 'user',
-            'message': user_message,
+            'message': query,
             'timestamp': datetime.now().isoformat()
         })
 
-        # Generate response based on user message
-        response = generate_chat_response(user_message, session_id)
+        response = query_engine.search(query)
 
-        # Store bot response
         chat_sessions[session_id]['history'].append({
             'role': 'bot',
-            'message': response,
+            'message': response[0]["text"],
             'timestamp': datetime.now().isoformat()
         })
 
         return jsonify({
-            'response': response,
+            'response': response[0]["text"],
             'session_id': session_id
         })
 
