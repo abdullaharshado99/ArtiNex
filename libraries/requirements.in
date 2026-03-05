@@ -5,3 +5,16 @@ flask_login
 python-dotenv
 gunicorn
 resend
+pillow
+pypdf
+pypdf2
+langchain
+langchain-community
+langchain-chroma
+langchain_experimental
+sentence-transformers
+docx2txt
+openpyxl
+tiktoken
+torch
+transformers
