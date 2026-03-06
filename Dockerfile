@@ -20,9 +20,6 @@ COPY endpoint.py pipeline.py .
 COPY templates/ ./templates/
 COPY static/ ./static/
 
-# Create all necessary directories for RAG pipeline
-RUN mkdir -p uploads vector_db data/exports data/raw_documents
-
 # Set environment variables for production
 ENV PORT=8080
 ENV PYTHONUNBUFFERED=1
