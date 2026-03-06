@@ -1,17 +1,27 @@
+import os
 import chromadb
 import numpy as np
+from dotenv import load_dotenv
 from typing import List, Dict, Any
 from chromadb.config import Settings
 from Anna_pipeline.config import RAGConfig
 from Anna_pipeline.embeddings import EmbeddingGenerator
+
+load_dotenv()
+
+chroma_key = os.getenv("CHROMA_CLOUD")
+tenant_key = os.getenv("CHROMA_TENANT")
+chroma_database = os.getenv("CHROMA_DATABASE")
 
 
 class VectorStore:
     def __init__(self):
         self.config = RAGConfig()
         self.embedding_generator = EmbeddingGenerator()
-        self.client = chromadb.PersistentClient(
-            path=self.config.VECTOR_DB_PATH,
+        self.client = chromadb.CloudClient(
+            api_key=chroma_key,
+            tenant=tenant_key,
+            database=chroma_database,
             settings=Settings(anonymized_telemetry=False)
         )
 
