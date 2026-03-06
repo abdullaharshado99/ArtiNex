@@ -1,26 +1,19 @@
-import os
 import cohere
 import numpy as np
-from dotenv import load_dotenv
 from Anna_pipeline.config import RAGConfig
-
-load_dotenv()
-
-cohere_token = os.getenv("COHERE_KEY")
 
 
 class EmbeddingGenerator:
     def __init__(self):
         self.config = RAGConfig()
-        self.model_name = "embed-multilingual-v3.0"
-        self.client = cohere.Client(cohere_token)
+        self.client = cohere.Client(self.config.COHERE_KEY)
 
     def generate_embeddings(self, texts: list[str]) -> np.ndarray:
         """Generate embeddings for a list of texts"""
 
         response = self.client.embed(
             texts=texts,
-            model=self.model_name,
+            model=self.config.COHERE_EMBEDDING_MODEL,
             input_type="search_document",
             truncate="END"
         )
@@ -29,7 +22,7 @@ class EmbeddingGenerator:
     def generate_single_embedding(self, text: str) -> np.ndarray:
         response = self.client.embed(
             texts=[text],
-            model=self.model_name,
+            model=self.config.COHERE_EMBEDDING_MODEL,
             input_type="search_query",
             truncate="END"
         )
