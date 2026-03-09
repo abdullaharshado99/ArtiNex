@@ -3,7 +3,7 @@ import hashlib
 from Anna_pipeline.config import RAGConfig
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from chonkie import SemanticChunker, AutoEmbeddings, Document as ChonkieDocument
+# from chonkie import SemanticChunker, AutoEmbeddings, Document as ChonkieDocument
 from langchain_community.document_loaders import (PyPDFLoader, TextLoader, Docx2txtLoader)
 
 

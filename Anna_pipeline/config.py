@@ -24,7 +24,7 @@ class RAGConfig:
 
     # Search settings
     TOP_K_RESULTS = 1
-    SIMILARITY_THRESHOLD = 0.4
+    SIMILARITY_THRESHOLD = 0.5
 
     # File upload settings
     UPLOAD_FOLDER = "uploads"
