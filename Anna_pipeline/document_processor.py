@@ -3,6 +3,7 @@ import hashlib
 from Anna_pipeline.config import RAGConfig
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from chonkie import SemanticChunker, AutoEmbeddings, Document as ChonkieDocument
 from langchain_community.document_loaders import (PyPDFLoader, TextLoader, Docx2txtLoader)
 
 
@@ -14,6 +15,13 @@ class DocumentProcessor:
             chunk_overlap=self.config.CHUNK_OVERLAP,
             separators=["\n\n", "\n", " ", ""]
         )
+        # self.text_splitter = SemanticChunker(
+        #     embedding_model=AutoEmbeddings.get_embeddings("all-MiniLM-L6-v2"),
+        #     threshold=self.config.SIMILARITY_THRESHOLD,
+        #     chunk_size=2048,
+        #     similarity_window=3,
+        #     skip_window=0
+        # )
 
     @staticmethod
     def extract_text_from_file(folder_path: str) -> list[Document]:
@@ -90,6 +98,49 @@ class DocumentProcessor:
             return page_content
         except Exception as e:
             raise e
+
+    # def create_chunks(self, documents: list[Document]) -> tuple[list[str], list[dict]]:
+    #
+    #     all_chunks = []
+    #     all_metadata = []
+    #
+    #     try:
+    #         for doc_index, doc in enumerate(documents):
+    #             text = doc.page_content
+    #             doc_metadata = doc.metadata
+    #
+    #             chonkie_doc = ChonkieDocument(content=text)
+    #
+    #             chunks = self.text_splitter.chunk_document(chonkie_doc)
+    #
+    #             if hasattr(chunks, 'chunks'):
+    #                 chunks = chunks.chunks
+    #
+    #                 for chunk_index, chunk in enumerate(chunks):
+    #                     if hasattr(chunk, 'content'):
+    #                         chunk_text = chunk.content
+    #                     elif hasattr(chunk, 'text'):
+    #                         chunk_text = chunk.text
+    #                     else:
+    #                         chunk_text = str(chunk)
+    #
+    #                     cleaned_text = self.clean_page_content(chunk_text)
+    #
+    #                     chunk_metadata = {
+    #                         **doc_metadata,
+    #                         'total_chunks': len(chunks),
+    #                         'similarity_window': 3
+    #                     }
+    #
+    #                     all_chunks.append(cleaned_text)
+    #                     all_metadata.append(chunk_metadata)
+    #
+    #
+    #     except Exception as e:
+    #         print(f"Error in create_chunks: {e}")
+    #         return [], []
+    #
+    #     return all_chunks, all_metadata
 
     def create_chunks(self, documents: list[Document]) -> tuple[list, list]:
         """Split text into chunks with metadata"""

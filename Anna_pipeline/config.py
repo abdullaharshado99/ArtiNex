@@ -6,7 +6,7 @@ load_dotenv()
 
 class RAGConfig:
     # Chunking settings
-    CHUNK_SIZE = 1000
+    CHUNK_SIZE = 2048
     CHUNK_OVERLAP = 200
 
     # Embedding settings
@@ -24,7 +24,7 @@ class RAGConfig:
 
     # Search settings
     TOP_K_RESULTS = 1
-    SIMILARITY_THRESHOLD = 0.7
+    SIMILARITY_THRESHOLD = 0.4
 
     # File upload settings
     UPLOAD_FOLDER = "uploads"
