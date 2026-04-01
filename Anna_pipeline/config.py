@@ -20,7 +20,7 @@ class RAGConfig:
     CHROMA_KEY = os.getenv("CHROMA_CLOUD")
     TENANT_KEY = os.getenv("CHROMA_TENANT")
     CHROMA_DATABASE = os.getenv("CHROMA_DATABASE")
-    CHROMA_COLLECTION = os.getenv("CHROMA_DATABASE")
+    CHROMA_COLLECTION = os.getenv("CHROMA_COLLECTION")
 
     # Search settings
     TOP_K_RESULTS = 1
