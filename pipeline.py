@@ -1,54 +1,7 @@
-import os, random
 import resend
 import sqlite3
 from pathlib import Path
-from dotenv import load_dotenv
-
-load_dotenv()
-
-RESEND_KEY = os.environ.get('RESEND_KEY')
-
-
-def generate_chat_response(message, session_id):
-    """Generate intelligent responses based on your services"""
-
-    # Service keywords mapping
-    services = {
-        'computer vision': 'We offer advanced computer vision solutions including object detection (YOLO), facial recognition, and visual quality control systems. Would you like to discuss a specific use case?',
-        'object detection': 'Our object detection systems use state-of-the-art YOLO models with 94.98% accuracy. We can customize it for your specific needs, whether it\'s security, manufacturing, or retail.',
-        'anomaly detection': 'We provide real-time anomaly detection for cybersecurity, fraud detection, and system monitoring. Our PyOD and DeepOD models detect unusual patterns with high precision.',
-        'rag chatbot': 'Our RAG (Retrieval-Augmented Generation) chatbots integrate with your enterprise knowledge base for accurate, context-aware responses. Powered by LangChain and vector databases.',
-        'ai agents': 'We develop autonomous AI agents for complex decision-making and workflow automation. Using AutoGen, LangGraph, and CrewAI for intelligent task execution.',
-        'time series': 'Our time series forecasting solutions predict demand, financial trends, and operational patterns using Prophet, ARIMA, and LSTM models.',
-        'model training': 'We offer custom ML model training with PyTorch, TensorFlow, and Scikit-learn. Transfer learning with pre-trained models like YOLO, SAM, and BERT available.',
-        'integration': 'We seamlessly integrate AI models into web and mobile apps using Flask/FastAPI, React Native, and TensorFlow Lite for on-device inference.',
-        'price': 'Our pricing is customized based on project scope. Contact us for a free consultation and quote tailored to your needs.',
-        'cost': 'Project costs vary based on complexity. Simple chatbots start at $5K, while enterprise solutions range from $20K-$100K+. Let\'s discuss your requirements.',
-        'contact': 'You can reach us at hello@arnasol.com or use the contact form on our website. We typically respond within 24 hours.',
-        'hello': 'Hello! 👋 How can I help you with your AI needs today?',
-        'hi': 'Hi there! 😊 What AI solution are you looking for?',
-        'thank': 'You\'re welcome! Feel free to ask if you have more questions.',
-        'bye': 'Goodbye! Feel free to return anytime you need AI assistance.'
-    }
-
-    # Check for matches
-    response = None
-    for key, value in services.items():
-        if key in message:
-            response = value
-            break
-
-    # Default response if no match
-    if not response:
-        response = random.choice([
-            "I'd be happy to help with that! Could you provide more details about your AI requirements?",
-            "Great question! We offer various AI solutions. Could you specify which area interests you most?",
-            "I can definitely assist with that. To give you the best recommendation, could you tell me more about your use case?",
-            "That's something we specialize in! Would you like to schedule a consultation with our AI experts?",
-            "Excellent choice! We have extensive experience in this area. What specific features are you looking for?"
-        ])
-
-    return response
+from Anna_pipeline.config import RAGConfig
 
 
 def save_to_database(name, email, phone, message, timestamp):
@@ -71,7 +24,7 @@ def save_to_database(name, email, phone, message, timestamp):
     conn.close()
 
 def send_email_notification(name, email, phone, message, current_date):
-    resend.api_key = RESEND_KEY
+    resend.api_key = RAGConfig.RESEND_KEY
     template_path = Path(__file__).parent / 'templates' / 'contact_notification.html'
 
     try:
@@ -106,7 +59,7 @@ def send_email_notification(name, email, phone, message, current_date):
     try:
         params = {
             "from": "ARNASOL <onboarding@resend.dev>",
-            "to": ["abdullaharshado99@gmail.com"],
+            "to": [f"{RAGConfig.RECEIVER_EMAIL}"],
             "subject": f"📬 New Contact Form Submission from {name}",
             "html": html_content,
             "reply_to": email
@@ -184,3 +137,61 @@ def send_email_notification(name, email, phone, message, current_date):
 
 
 
+
+
+
+
+
+    # Initialize your embeddings
+    embeddings = SentenceTransformerEmbeddings("sentence-transformers/all-MiniLM-L6-v2")
+
+    # Create the semantic chunker with your embedding model
+    splitter = SemanticChunker(
+        embeddings=embeddings,
+        breakpoint_threshold_type="percentile",  # Options: "percentile", "standard_deviation", "interquartile"
+        breakpoint_threshold_amount=95  # 95th percentile threshold
+    )
+
+    from semantic_chunker import SemanticChunker
+    from sentence_transformers import SentenceTransformer
+
+    # Initialize your sentence transformer model
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+    # Create chunker with your embedding model
+    chunker = SemanticChunker(
+        model_name='all-MiniLM-L6-v2',  # This will load the model internally
+        max_chunk_size=1000,
+        similarity_threshold=0.3
+    )
+
+    # Use it directly
+    text = "Your long document text here..."
+    chunks = chunker.semantic_chunk(text)
+
+    from chonkie import SemanticChunker, AutoEmbeddings
+
+    # Auto-detect and load the right embeddings handler
+    embeddings = AutoEmbeddings.get_embeddings("all-MiniLM-L6-v2")
+
+    # Create semantic chunker
+    chunker = SemanticChunker(
+        embeddings=embeddings,
+        similarity_threshold=0.7,
+        chunk_size=1000
+    )
+
+    # Chunk your text
+    text = "Your long document text here..."
+    chunks = chunker(text)
+
+
+# | Model                        | Embedding Dimension |
+# | ---------------------------- | ------------------- |
+# | `all-MiniLM-L6-v2`           | 384                 |
+# | `all-MiniLM-L12-v2`          | 384                 |
+# | `all-mpnet-base-v2`          | 768                 |
+# | `multi-qa-MiniLM-L6-cos-v1`  | 384                 |
+# | `multi-qa-mpnet-base-dot-v1` | 768                 |
+# | `paraphrase-MiniLM-L6-v2`    | 384                 |
+# | `paraphrase-mpnet-base-v2`   | 768                 |

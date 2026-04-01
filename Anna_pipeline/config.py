@@ -17,6 +17,9 @@ class RAGConfig:
 
     COHERE_KEY = os.getenv("COHERE_KEY")
 
+    RESEND_KEY = os.environ.get('RESEND_KEY')
+    RECEIVER_EMAIL = os.getenv("RECEIVE_EMAIL")
+
     CHROMA_KEY = os.getenv("CHROMA_CLOUD")
     TENANT_KEY = os.getenv("CHROMA_TENANT")
     CHROMA_DATABASE = os.getenv("CHROMA_DATABASE")
