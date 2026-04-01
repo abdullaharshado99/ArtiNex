@@ -6,8 +6,8 @@ load_dotenv()
 
 class RAGConfig:
     # Chunking settings
-    CHUNK_SIZE = 2048
-    CHUNK_OVERLAP = 200
+    CHUNK_SIZE = 1024
+    CHUNK_OVERLAP = 10
 
     # Embedding settings
     EMBEDDING_MODEL = "sentence-transformers/paraphrase-mpnet-base-v2"
