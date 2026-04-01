@@ -17,6 +17,11 @@ class RAGConfig:
 
     COHERE_KEY = os.getenv("COHERE_KEY")
 
+    ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+
+    FLASK_APP_PASSWORD= os.environ.get('SECRET_KEY')
+
     RESEND_KEY = os.environ.get('RESEND_KEY')
     RECEIVER_EMAIL = os.getenv("RECEIVE_EMAIL")
 

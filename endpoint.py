@@ -1,11 +1,10 @@
-import os
 import sqlite3
 from flask_cors import CORS
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from pipeline import send_email_notification
-from Anna_pipeline.query_engine import QueryEngine
+from Anna_pipeline.query_engine import QueryEngine, RAGConfig
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 
 
@@ -20,13 +19,7 @@ query_engine = QueryEngine()
 
 chat_sessions = {}
 
-
-SENDER_KEY = os.environ.get('SENDER_KEY')
-Sender_Email = os.environ.get('SENDER_EMAIL')
-Receiver_Email = os.environ.get('RECEIVE_EMAIL')
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
-app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = RAGConfig.FLASK_APP_PASSWORD
 
 @app.route('/')
 def home():
@@ -88,7 +81,7 @@ def admin_login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        if username == RAGConfig.ADMIN_USERNAME and password == RAGConfig.ADMIN_PASSWORD:
             session['admin_logged_in'] = True
             next_page = request.args.get('next')
             return redirect(next_page or url_for('view_contacts'))
